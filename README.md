@@ -3,8 +3,8 @@
 Interaktive, nicht diagnostische Demonstration eines de-identifizierten DVT-Falls mit:
 
 - synchronisierten axialen, koronalen und sagittalen Ansichten,
-- je 171 Schichten rund um die markierte Beispielregion,
-- jede dritte Originalschicht als 0,6-mm-Navigationsraster,
+- gesamter Aufnahmebereich mit 326 axialen sowie je 401 koronalen und sagittalen Schichten,
+- jede zweite Originalschicht als 0,4-mm-Navigationsraster,
 - gemeinsamem MPR-Kreuzpunkt,
 - interaktiv drehbarem 3D-Knochenmodell,
 - grüner Demo-ROI als nicht ärztlich bestätigtem Platzhalter.
