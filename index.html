@@ -738,7 +738,7 @@ html>body{padding:0}</style>
 <style id="offline-shell">
   html { min-height: 100%; }
   html > body {
-    width: min(1180px, 100%);
+    width: min(1580px, 100%);
     min-height: 100vh;
     margin: 0 auto !important;
     padding: 18px !important;
@@ -867,6 +867,52 @@ html>body{padding:0}</style>
     #dvtMprDemo .dmp-case-meta div{border-left:2px solid var(--border);padding-left:9px}
     #dvtMprDemo .dmp-case-meta strong,#dvtMprDemo .dmp-case-meta span{display:block}
     #dvtMprDemo .dmp-case-meta span{margin-top:2px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-editorial-shell{display:grid;grid-template-columns:210px minmax(580px,1fr) 310px;border-bottom:1px solid var(--border)}
+    #dvtMprDemo .dmp-editorial-left,#dvtMprDemo .dmp-editorial-right{padding:22px 20px}
+    #dvtMprDemo .dmp-editorial-left{border-right:1px solid var(--border);padding-left:0}
+    #dvtMprDemo .dmp-editorial-right{border-left:1px solid var(--border);padding-right:0}
+    #dvtMprDemo .dmp-editorial-main{min-width:0;padding:22px 24px 26px}
+    #dvtMprDemo .dmp-editorial-kicker,#dvtMprDemo .dmp-rail-label{text-transform:uppercase;letter-spacing:.18em;color:var(--muted-foreground);font-weight:500}
+    #dvtMprDemo .dmp-editorial-kicker{color:color-mix(in srgb,var(--foreground) 72%,var(--muted-foreground));margin-bottom:9px}
+    #dvtMprDemo .dmp-editorial-title{margin:0 0 18px;font-weight:400;letter-spacing:-.02em}
+    #dvtMprDemo .dmp-region-list{display:grid;margin:13px 0 26px}
+    #dvtMprDemo .dmp-region-item{display:grid;grid-template-columns:26px minmax(0,1fr) 20px;gap:6px;align-items:center;text-align:left;padding:11px 0;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-region-item span:first-child{opacity:.62}
+    #dvtMprDemo .dmp-region-item.is-active{color:var(--foreground);font-weight:500}
+    #dvtMprDemo .dmp-region-item.is-active:after{content:'';width:20px;height:2px;background:currentColor}
+    #dvtMprDemo .dmp-region-item:disabled{cursor:default;opacity:.7}
+    #dvtMprDemo .dmp-indication-list{display:grid;gap:9px;margin-top:14px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-indication-list strong{color:var(--foreground);font-weight:500}
+    #dvtMprDemo .dmp-clinical-title{margin:13px 0 16px;font-weight:400}
+    #dvtMprDemo .dmp-clinical-copy{margin:0 0 22px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-finding-list{display:grid;gap:7px;margin:13px 0 24px}
+    #dvtMprDemo .dmp-finding{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;text-align:left;padding:12px;border:1px solid var(--border);background:transparent;color:var(--foreground)}
+    #dvtMprDemo .dmp-finding span:first-child{color:var(--muted-foreground);font-weight:500}
+    #dvtMprDemo .dmp-finding strong,#dvtMprDemo .dmp-finding small{display:block}
+    #dvtMprDemo .dmp-finding strong{font-weight:500}
+    #dvtMprDemo .dmp-finding small{margin-top:4px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-finding[aria-pressed="true"]{background:var(--muted);border-color:color-mix(in srgb,var(--foreground) 35%,var(--border))}
+    #dvtMprDemo .dmp-benefits{display:grid;gap:14px;margin-top:13px}
+    #dvtMprDemo .dmp-benefit{padding-top:10px;border-top:1px solid var(--border)}
+    #dvtMprDemo .dmp-benefit:before{content:'';display:block;width:30px;height:2px;margin-bottom:9px;background:var(--foreground)}
+    #dvtMprDemo .dmp-benefit strong,#dvtMprDemo .dmp-benefit span{display:block}
+    #dvtMprDemo .dmp-benefit strong{font-weight:500}
+    #dvtMprDemo .dmp-benefit span{margin-top:3px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-editorial-note{margin-top:20px;padding-top:13px;border-top:1px solid var(--border);color:var(--muted-foreground)}
+    #dvtMprDemo section[data-view-panel="imaging"]>.dmp-info{display:none}
+    @media(max-width:1180px){
+      #dvtMprDemo .dmp-editorial-shell{grid-template-columns:170px minmax(520px,1fr) 270px}
+      #dvtMprDemo .dmp-editorial-left,#dvtMprDemo .dmp-editorial-right{padding-left:14px;padding-right:14px}
+      #dvtMprDemo .dmp-editorial-main{padding-left:16px;padding-right:16px}
+    }
+    @media(max-width:980px){
+      #dvtMprDemo .dmp-editorial-shell{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-editorial-left,#dvtMprDemo .dmp-editorial-right{border:0;padding:18px 0}
+      #dvtMprDemo .dmp-editorial-left{border-bottom:1px solid var(--border)}
+      #dvtMprDemo .dmp-editorial-right{border-top:1px solid var(--border)}
+      #dvtMprDemo .dmp-editorial-main{padding:20px 0}
+      #dvtMprDemo .dmp-region-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}
+    }
     @media(max-width:820px){
       #dvtMprDemo .dmp-overview,#dvtMprDemo .dmp-info,#dvtMprDemo .dmp-atlas-hero{grid-template-columns:1fr}
       #dvtMprDemo .dmp-axis-controls{grid-template-columns:1fr}
@@ -926,6 +972,25 @@ html>body{padding:0}</style>
   </section>
 
   <section class="dmp-view" data-view-panel="imaging">
+    <div class="dmp-editorial-shell">
+      <aside class="dmp-editorial-left" aria-label="Körperregionen und Indikationen">
+        <div class="dmp-rail-label">Körperregionen</div>
+        <div class="dmp-region-list">
+          <button type="button" class="dmp-region-item" disabled><span>01</span><span>Schulter</span></button>
+          <button type="button" class="dmp-region-item" disabled><span>02</span><span>Ellenbogen</span></button>
+          <button type="button" class="dmp-region-item" disabled><span>03</span><span>Hand</span></button>
+          <button type="button" class="dmp-region-item" disabled><span>04</span><span>Hüfte</span></button>
+          <button type="button" class="dmp-region-item" disabled><span>05</span><span>Knie</span></button>
+          <button type="button" class="dmp-region-item" disabled><span>06</span><span>Sprunggelenk</span></button>
+          <button type="button" class="dmp-region-item is-active" aria-current="page"><span>07</span><span>Fuß</span></button>
+        </div>
+        <div class="dmp-rail-label">Indikationen</div>
+        <div class="dmp-indication-list"><span>Unklare knöcherne Auffälligkeit</span><span>Fraktur &amp; Ausheilung</span><span>Fehlstellung</span><span>Arthrose</span><span>Implantatkontrolle</span></div>
+      </aside>
+
+      <main class="dmp-editorial-main">
+        <div class="dmp-editorial-kicker">Kapitel 07 · Fuß</div>
+        <h1 class="dmp-editorial-title">Vom Volumen zur räumlichen Orientierung.</h1>
     <div class="dmp-case-head"><div><strong>Testfall DVT_TEST_001</strong><span>Gesamter Originalbereich in 0,4-mm-Schritten · nicht diagnostisch</span></div><div class="dmp-badges"><span class="viz-badge dmp-marker-badge">Grüne Demo-ROI</span><span class="viz-badge">326 axial</span><span class="viz-badge">401 koronal</span><span class="viz-badge">401 sagittal</span><span class="viz-badge">jede 2. Originalschicht</span></div></div>
     <div class="dmp-workspace-head">
       <div class="dmp-story-tabs" role="tablist" aria-label="Fallkapitel">
@@ -944,7 +1009,7 @@ html>body{padding:0}</style>
             <img id="dmpAxialImage" src="frames/axial/0335.jpg" alt="Axiale DVT-Schicht">
             <div class="dmp-pane-label"><strong>AXIAL</strong><span>Transversalebene</span></div><div class="dmp-pane-value" id="dmpAxialValue">Z 335 / 651</div>
             <div class="dmp-cross dmp-cross-v dmp-axis-x" id="dmpAxialX"></div><div class="dmp-cross dmp-cross-h dmp-axis-y" id="dmpAxialY"></div>
-            <div class="dmp-marker" id="dmpAxialMarker"><span class="dmp-marker-label">Demo: mögliche Frakturregion</span></div>
+            <div class="dmp-marker" id="dmpAxialMarker"><span class="dmp-marker-label">Didaktische ROI</span></div>
           </div>
           <div class="dmp-panel-foot"><span>Scrollen: Z-Ebene</span><span>WC 120 · WW 1520</span></div>
         </section>
@@ -954,7 +1019,7 @@ html>body{padding:0}</style>
             <img id="dmpCoronalImage" src="frames/coronal/0331.jpg" alt="Koronale DVT-Rekonstruktion">
             <div class="dmp-pane-label"><strong>KORONAL</strong><span>Frontalebene</span></div><div class="dmp-pane-value" id="dmpCoronalValue">Y 331 / 801</div>
             <div class="dmp-cross dmp-cross-v dmp-axis-x" id="dmpCoronalX"></div><div class="dmp-cross dmp-cross-h dmp-axis-z" id="dmpCoronalZ"></div>
-            <div class="dmp-marker" id="dmpCoronalMarker"><span class="dmp-marker-label">Demo: mögliche Frakturregion</span></div>
+            <div class="dmp-marker" id="dmpCoronalMarker"><span class="dmp-marker-label">Didaktische ROI</span></div>
           </div>
           <div class="dmp-panel-foot"><span>Scrollen: Y-Ebene</span><span>isotrop 0,2 mm</span></div>
         </section>
@@ -964,7 +1029,7 @@ html>body{padding:0}</style>
             <img id="dmpSagittalImage" src="frames/sagittal/0275.jpg" alt="Sagittale DVT-Rekonstruktion">
             <div class="dmp-pane-label"><strong>SAGITTAL</strong><span>Seitenebene</span></div><div class="dmp-pane-value" id="dmpSagittalValue">X 275 / 801</div>
             <div class="dmp-cross dmp-cross-v dmp-axis-y" id="dmpSagittalY"></div><div class="dmp-cross dmp-cross-h dmp-axis-z" id="dmpSagittalZ"></div>
-            <div class="dmp-marker" id="dmpSagittalMarker"><span class="dmp-marker-label">Demo: mögliche Frakturregion</span></div>
+            <div class="dmp-marker" id="dmpSagittalMarker"><span class="dmp-marker-label">Didaktische ROI</span></div>
           </div>
           <div class="dmp-panel-foot"><span>Scrollen: X-Ebene</span><span>Klick: Kreuzpunkt</span></div>
         </section>
@@ -989,13 +1054,33 @@ html>body{padding:0}</style>
       <label class="dmp-axis-control" for="dmpYSlider"><span><strong><i class="dmp-axis-key dmp-axis-y"></i>Koronal Y</strong><output id="dmpYOutput">331 / 801</output></span><input class="form-range" id="dmpYSlider" type="range" min="1" max="801" step="2" value="331"></label>
       <label class="dmp-axis-control" for="dmpZSlider"><span><strong><i class="dmp-axis-key dmp-axis-z"></i>Axial Z</strong><output id="dmpZOutput">335 / 651</output></span><input class="form-range" id="dmpZSlider" type="range" min="1" max="651" step="2" value="335"></label>
     </div>
-    <div class="dmp-mpr-status"><span id="dmpPosition">Kreuzpunkt X 54,8 · Y 66,0 · Z 63,2 mm</span><span class="dmp-marker-status">Grün: Demo-Frakturregion · fachlich zu bestätigen</span><span>Gesamter Bereich · Raster 0,4 mm</span></div>
+    <div class="dmp-mpr-status"><span id="dmpPosition">Kreuzpunkt X 54,8 · Y 66,0 · Z 63,2 mm</span><span class="dmp-marker-status">Grün: didaktische ROI · fachlich zu bestätigen</span><span>Gesamter Bereich · Raster 0,4 mm</span></div>
+
+      </main>
+
+      <aside class="dmp-editorial-right" aria-label="Klinische Einordnung">
+        <div class="dmp-rail-label">Klinische Leitfrage</div>
+        <h2 class="dmp-clinical-title">Wo liegt die relevante knöcherne Veränderung?</h2>
+        <p class="dmp-clinical-copy">Die DVT-Serie des Vorfußes erlaubt eine überlagerungsfreie Orientierung in drei Ebenen. Der gespeicherte Kreuzpunkt markiert eine didaktische Beispielregion; Lokalisation und Diagnose müssen ärztlich bestätigt werden.</p>
+
+        <div class="dmp-rail-label">Fallnavigation</div>
+        <div class="dmp-finding-list">
+          <button type="button" class="dmp-finding" data-editorial-action="marker" aria-pressed="true"><span>1</span><span><strong>Didaktische ROI</strong><small>Zum gespeicherten MPR-Kreuzpunkt springen.</small></span></button>
+          <button type="button" class="dmp-finding" data-editorial-action="mpr" aria-pressed="false"><span>2</span><span><strong>MPR-Korrelation</strong><small>Axial, koronal und sagittal gemeinsam beurteilen.</small></span></button>
+          <button type="button" class="dmp-finding" data-editorial-action="three" aria-pressed="false"><span>3</span><span><strong>3D-Orientierung</strong><small>Räumlichen Zusammenhang drehen und einordnen.</small></span></button>
+        </div>
+
+        <div class="dmp-rail-label">Nutzen der DVT</div>
+        <div class="dmp-benefits"><div class="dmp-benefit"><strong>Räumlich orientieren</strong><span>Knochen, Gelenkflächen und Achsen in drei Ebenen erfassen.</span></div><div class="dmp-benefit"><strong>Überlagerungsfrei betrachten</strong><span>Strukturen ohne Summation konventioneller Projektionen untersuchen.</span></div><div class="dmp-benefit"><strong>Nachvollziehbar kommunizieren</strong><span>Schlüsselpositionen für Befundgespräch und Verlauf festhalten.</span></div></div>
+        <div class="dmp-editorial-note">Demonstrationsdarstellung für Lehre und Präsentation. Kein Ersatz für diagnostische Befundung im medizinischen DICOM-Viewer.</div>
+      </aside>
+    </div>
 
     <div class="dmp-info">
       <div>
         <section class="dmp-section dmp-story-panel" data-story-panel="history"><h3>Anamnese</h3><p>Die klinische Ausgangslage wird im realen Atlas vom behandelnden Arzt ergänzt und vor Veröffentlichung freigegeben.</p><ul><li>Beschwerden und Dauer</li><li>Voruntersuchungen</li><li>Konkrete DVT-Fragestellung</li></ul></section>
         <section class="dmp-section dmp-story-panel is-active" data-story-panel="imaging"><h3>Bildgebung</h3><p>Alle drei Rekonstruktionen stammen aus demselben isotropen Volumen. Der gemeinsame Kreuzpunkt verbindet die anatomische Position über alle Ebenen und die 3D-Orientierung.</p></section>
-        <section class="dmp-section dmp-story-panel" data-story-panel="finding"><h3>Befund</h3><p>Die grüne ROI demonstriert eine mögliche Frakturmarkierung am gespeicherten MPR-Kreuzpunkt X 275 / Y 331 / Z 335. Position und Diagnose sind Platzhalter und müssen vor Veröffentlichung ärztlich bestätigt werden.</p></section>
+        <section class="dmp-section dmp-story-panel" data-story-panel="finding"><h3>Befund</h3><p>Die grüne ROI markiert ausschließlich eine didaktische Beispielposition am MPR-Kreuzpunkt X 275 / Y 331 / Z 335. Medizinische Lokalisation und Diagnose müssen vor Veröffentlichung ärztlich ergänzt und bestätigt werden.</p></section>
         <section class="dmp-section dmp-story-panel" data-story-panel="therapy"><h3>Therapie</h3><p>Die Therapieentscheidung folgt erst nach Bildgebung und ärztlich freigegebenem Befund. So bleibt die klinische Argumentation nachvollziehbar.</p></section>
       </div>
       <section class="dmp-section"><h3>Volumenstatus</h3><dl><div><dt>Quelle</dt><dd>Romexis 6 · Enhanced CT</dd></div><div><dt>Matrix</dt><dd>801 × 801 × 651</dd></div><div><dt>Voxel</dt><dd>0,2 mm isotrop</dd></div><div><dt>3D</dt><dd>114.676 Punkte</dd></div></dl></section>
@@ -1103,6 +1188,13 @@ html>body{padding:0}</style>
         storyButtons.forEach(item=>{const active=item===button;item.setAttribute('aria-pressed',String(active));item.classList.toggle('btn-primary',active);});
         storyPanels.forEach(panel=>panel.classList.toggle('is-active',panel.dataset.storyPanel===name));
       }));
+      root.querySelectorAll('[data-editorial-action]').forEach(button=>button.addEventListener('click',()=>{
+        root.querySelectorAll('[data-editorial-action]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+        const action=button.dataset.editorialAction;
+        if(action==='marker')root.querySelector('#dmpMarkerFocus').click();
+        if(action==='mpr')root.querySelector('#dmpMprGrid').scrollIntoView({behavior:'smooth',block:'center'});
+        if(action==='three'){reset3D();root.querySelector('#dmpThreeWrap').scrollIntoView({behavior:'smooth',block:'center'});}
+      }));
 
       function preload(axis,value){
         [-4,-2,2,4].forEach(delta=>{const candidate=value+delta;if(candidate<ranges[axis].min||candidate>ranges[axis].max)return;if(localFileMode){const image=new Image();image.src=directPathFor(axis,candidate);}else{getSliceUrl(axis,candidate).catch(()=>{});}});
@@ -1202,7 +1294,7 @@ html>body{padding:0}</style>
           const material=new THREE.MeshStandardMaterial({color:0xd5cdbf,roughness:.78,metalness:.02,side:THREE.DoubleSide});model=new THREE.Mesh(geometry,material);scene.add(model);
           scene.add(new THREE.HemisphereLight(0xe9f2ff,0x23272c,.9));const key=new THREE.DirectionalLight(0xffffff,.8);key.position.set(1.5,2,2.5);scene.add(key);const rim=new THREE.DirectionalLight(0x8fb9ff,.4);rim.position.set(-2,-.5,-1);scene.add(rim);
           controls=new THREE.OrbitControls(camera,threeCanvas);controls.enableDamping=true;controls.dampingFactor=.07;controls.autoRotate=!reduceMotion;controls.autoRotateSpeed=1.1;controls.enablePan=false;
-          createSliceFrames(modelCenter);create3DMarker(modelCenter);reset3D();resize3D();threeFallback.hidden=true;threeStatus.textContent='Grün: Demo-Frakturregion · Ziehen: drehen · Mausrad: zoomen';
+          createSliceFrames(modelCenter);create3DMarker(modelCenter);reset3D();resize3D();threeFallback.hidden=true;threeStatus.textContent='Grün: didaktische ROI · Ziehen: drehen · Mausrad: zoomen';
           const animate=()=>{animationFrame=requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);};animate();
           if(window.ResizeObserver)new ResizeObserver(resize3D).observe(threeWrap);else window.addEventListener('resize',resize3D);
           if(reduceMotion){const rotateButton=root.querySelector('#dmpThreeRotate');rotateButton.setAttribute('aria-pressed','false');rotateButton.textContent='Rotation aus';}
