@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>DVT Bildatlas – öffentliche MPR- und 3D-Probe</title>
+<style>:root {
+  color-scheme: light dark;
+  background-color: var(--background) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: light-dark(rgb(255 255 255), rgb(24 24 24));
+  --foreground: light-dark(rgb(26 28 31), rgb(255 255 255));
+  --card: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --card-foreground: var(--foreground);
+  --popover: light-dark(rgb(255 255 255), rgb(45 45 45));
+  --popover-foreground: var(--foreground);
+  --primary: light-dark(rgb(51 156 255), rgb(131 195 255));
+  --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
+  --secondary: light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%));
+  --secondary-foreground: var(--foreground);
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: light-dark(
+    rgb(26 28 31 / 49.4%),
+    rgb(255 255 255 / 49.8%)
+  );
+  --accent: light-dark(rgb(229 242 255), rgb(13 39 63));
+  --accent-foreground: var(--primary);
+  --destructive: light-dark(rgb(226 85 7), rgb(255 133 73));
+  --border: light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%));
+  --input: light-dark(
+    rgb(26 28 31 / 11.8%),
+    color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+  );
+  --ring: light-dark(rgb(51 156 255), rgb(131 195 255 / 76%));
+  --font-size-base: 14px;
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, "Segoe UI", sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: 12.5px;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+  --color-background-primary: var(--background);
+  --color-text-primary: var(--foreground);
+  --color-border-secondary: var(--border);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--viz-font-weight-medium);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget > :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type="file"]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed="true"],
+    [aria-selected="true"],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html>body{padding:0}</style>
+
+<style id="offline-shell">
+  html { min-height: 100%; }
+  html > body {
+    width: min(1180px, 100%);
+    min-height: 100vh;
+    margin: 0 auto !important;
+    padding: 18px !important;
+  }
+  @media (max-width: 520px) {
+    html > body { padding: 10px !important; }
+  }
+</style>
+
+</head>
+<body>
+<div id="dvtMprDemo" class="dmp-root">
+  <style>
+    #dvtMprDemo{font-family:inherit;color:var(--foreground)}
+    #dvtMprDemo *{box-sizing:border-box}
+    #dvtMprDemo .dmp-header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-bottom:13px;border-bottom:1px solid var(--border)}
+    #dvtMprDemo .dmp-brand{display:flex;align-items:center;gap:10px}
+    #dvtMprDemo .dmp-brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--primary);color:var(--primary-foreground);font-weight:500}
+    #dvtMprDemo .dmp-brand strong,#dvtMprDemo .dmp-brand span{display:block}
+    #dvtMprDemo .dmp-brand span{color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-nav,#dvtMprDemo .dmp-actions,#dvtMprDemo .dmp-story-tabs,#dvtMprDemo .dmp-workspace-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+    #dvtMprDemo .dmp-view{display:none;padding-top:16px}
+    #dvtMprDemo .dmp-view.is-active{display:block}
+    #dvtMprDemo .dmp-case-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:13px}
+    #dvtMprDemo .dmp-case-head strong,#dvtMprDemo .dmp-case-head span{display:block}
+    #dvtMprDemo .dmp-case-head span{color:var(--muted-foreground);margin-top:3px}
+    #dvtMprDemo .dmp-badges{display:flex;gap:6px;flex-wrap:wrap}
+    #dvtMprDemo .dmp-overview{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(240px,.7fr);gap:18px;align-items:start}
+    #dvtMprDemo .dmp-intro{margin:0 0 16px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-path{display:grid;gap:0}
+    #dvtMprDemo .dmp-path-step{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding-bottom:17px;position:relative}
+    #dvtMprDemo .dmp-path-step:not(:last-child):before{content:'';position:absolute;left:14px;top:29px;bottom:0;width:1px;background:var(--border)}
+    #dvtMprDemo .dmp-path-num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--muted);color:var(--foreground)}
+    #dvtMprDemo .dmp-path-step strong,#dvtMprDemo .dmp-path-step span{display:block}
+    #dvtMprDemo .dmp-path-step span{color:var(--muted-foreground);margin-top:3px}
+    #dvtMprDemo .dmp-preview{width:100%;border-radius:12px;display:block;background:color-mix(in srgb,var(--foreground) 95%,var(--background))}
+    #dvtMprDemo .dmp-preview-caption{margin-top:8px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-actions{margin-top:15px}
+    #dvtMprDemo .dmp-workspace-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+    #dvtMprDemo .dmp-story-tabs{margin:0}
+    #dvtMprDemo .dmp-workspace{position:relative}
+    #dvtMprDemo .dmp-mpr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;background:color-mix(in srgb,var(--foreground) 18%,transparent);padding:3px;border-radius:12px;overflow:hidden}
+    #dvtMprDemo .dmp-panel{min-width:0;background:color-mix(in srgb,var(--background) 5%,rgb(0 0 0) 95%);color:rgb(238 242 245)}
+    #dvtMprDemo .dmp-media{position:relative;aspect-ratio:1/1;overflow:hidden;background:rgb(0 0 0);user-select:none;touch-action:none;cursor:crosshair}
+    #dvtMprDemo .dmp-media img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+    #dvtMprDemo .dmp-pane-label{position:absolute;top:8px;left:10px;z-index:4;color:rgb(238 242 245);text-shadow:0 1px 3px rgb(0 0 0);pointer-events:none}
+    #dvtMprDemo .dmp-pane-label strong,#dvtMprDemo .dmp-pane-label span{display:block}
+    #dvtMprDemo .dmp-pane-label span{color:rgb(198 206 212)}
+    #dvtMprDemo .dmp-pane-value{position:absolute;top:8px;right:10px;z-index:4;text-align:right;color:rgb(238 242 245);text-shadow:0 1px 3px rgb(0 0 0);pointer-events:none}
+    #dvtMprDemo .dmp-marker{position:absolute;z-index:6;width:42px;height:42px;border:3px solid var(--viz-series-3);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 2px color-mix(in srgb,var(--viz-series-3) 25%,transparent),0 0 14px color-mix(in srgb,var(--viz-series-3) 70%,transparent);pointer-events:none}
+    #dvtMprDemo .dmp-marker[hidden]{display:none}
+    #dvtMprDemo .dmp-marker:before,#dvtMprDemo .dmp-marker:after{content:'';position:absolute;background:var(--viz-series-3)}
+    #dvtMprDemo .dmp-marker:before{left:50%;top:-8px;bottom:-8px;width:1px}
+    #dvtMprDemo .dmp-marker:after{top:50%;left:-8px;right:-8px;height:1px}
+    #dvtMprDemo .dmp-marker-label{position:absolute;left:34px;top:-15px;white-space:nowrap;padding:3px 6px;border-radius:5px;background:color-mix(in srgb,var(--viz-series-3) 78%,rgb(0 0 0) 22%);color:rgb(255 255 255);font-weight:500}
+    #dvtMprDemo .dmp-marker-badge{box-shadow:inset 0 0 0 1px var(--viz-series-3)}
+    #dvtMprDemo .dmp-cross{position:absolute;z-index:3;pointer-events:none;opacity:.9}
+    #dvtMprDemo .dmp-cross-v{top:0;bottom:0;width:1px}
+    #dvtMprDemo .dmp-cross-h{left:0;right:0;height:1px}
+    #dvtMprDemo .dmp-media[data-plane="coronal"] .dmp-cross-v,#dvtMprDemo .dmp-media[data-plane="sagittal"] .dmp-cross-v{top:9.36%;bottom:9.36%}
+    #dvtMprDemo .dmp-axis-x{background:var(--viz-series-2)}
+    #dvtMprDemo .dmp-axis-y{background:var(--viz-series-3)}
+    #dvtMprDemo .dmp-axis-z{background:var(--viz-series-1)}
+    #dvtMprDemo .dmp-panel-foot{display:flex;justify-content:space-between;gap:8px;align-items:center;min-height:38px;padding:7px 9px;background:color-mix(in srgb,var(--background) 12%,rgb(0 0 0) 88%);color:rgb(198 206 212)}
+    #dvtMprDemo .dmp-panel-foot .btn{color:rgb(238 242 245);border-color:rgb(70 81 90);background:rgb(26 32 37)}
+    #dvtMprDemo .dmp-three-wrap{position:relative;aspect-ratio:1/1;background:rgb(0 0 0);overflow:hidden}
+    #dvtMprDemo .dmp-three-wrap canvas,#dvtMprDemo .dmp-three-fallback{position:absolute;inset:0;width:100%;height:100%;display:block}
+    #dvtMprDemo .dmp-three-fallback{object-fit:contain}
+    #dvtMprDemo .dmp-three-wrap canvas{z-index:2;touch-action:none}
+    #dvtMprDemo .dmp-three-status{position:absolute;left:10px;bottom:9px;z-index:4;color:rgb(198 206 212);text-shadow:0 1px 3px rgb(0 0 0);pointer-events:none}
+    #dvtMprDemo .dmp-axis-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:13px}
+    #dvtMprDemo .dmp-axis-control{display:grid;gap:5px}
+    #dvtMprDemo .dmp-axis-control span{display:flex;justify-content:space-between;gap:8px}
+    #dvtMprDemo .dmp-axis-control strong{font-weight:500}
+    #dvtMprDemo .dmp-axis-control output{color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-axis-key{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+    #dvtMprDemo .dmp-mpr-status{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:9px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-marker-status{color:var(--foreground)}
+    #dvtMprDemo .dmp-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.6fr);gap:18px;margin-top:16px}
+    #dvtMprDemo .dmp-section{border-left:2px solid var(--border);padding-left:12px}
+    #dvtMprDemo .dmp-section h3{margin:0 0 8px;font-weight:500}
+    #dvtMprDemo .dmp-section p{margin:0;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-section dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;margin:0}
+    #dvtMprDemo .dmp-section dt{color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-section dd{margin:2px 0 0}
+    #dvtMprDemo .dmp-story-panel{display:none}
+    #dvtMprDemo .dmp-story-panel.is-active{display:block}
+    #dvtMprDemo .dmp-story-panel ul{margin:9px 0 0;padding-left:18px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-help{position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:22px;background:color-mix(in srgb,var(--background) 22%,transparent)}
+    #dvtMprDemo .dmp-help[hidden]{display:none}
+    #dvtMprDemo .dmp-help-box{max-width:520px;padding:18px}
+    #dvtMprDemo .dmp-help-box strong{display:block;margin-bottom:8px}
+    #dvtMprDemo .dmp-help-box ol{margin:0 0 15px;padding-left:20px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-help-box li+li{margin-top:6px}
+    #dvtMprDemo .dmp-format-table{width:100%;border-collapse:collapse}
+    #dvtMprDemo .dmp-format-table th,#dvtMprDemo .dmp-format-table td{text-align:left;vertical-align:top;padding:11px 9px;border-bottom:1px solid var(--border)}
+    #dvtMprDemo .dmp-format-table th{font-weight:500;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-format-table td strong,#dvtMprDemo .dmp-format-table td span{display:block}
+    #dvtMprDemo .dmp-format-table td span{margin-top:3px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-decision{margin-top:16px;border-left:3px solid var(--viz-series-1);padding-left:13px}
+    #dvtMprDemo .dmp-decision strong,#dvtMprDemo .dmp-decision span{display:block}
+    #dvtMprDemo .dmp-decision span{color:var(--muted-foreground);margin-top:4px}
+    #dvtMprDemo .dmp-web-check{margin-top:16px;border-left:3px solid var(--viz-series-3);padding-left:13px}
+    #dvtMprDemo .dmp-web-check>strong{display:block;margin-bottom:9px}
+    #dvtMprDemo .dmp-web-check dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0}
+    #dvtMprDemo .dmp-web-check dt{color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-web-check dd{margin:2px 0 0}
+    @media(max-width:820px){
+      #dvtMprDemo .dmp-overview,#dvtMprDemo .dmp-info{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-axis-controls{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-web-check dl{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:620px){
+      #dvtMprDemo .dmp-mpr-grid{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-format-table thead{display:none}
+      #dvtMprDemo .dmp-format-table,#dvtMprDemo .dmp-format-table tbody,#dvtMprDemo .dmp-format-table tr,#dvtMprDemo .dmp-format-table td{display:block;width:100%}
+      #dvtMprDemo .dmp-format-table tr{padding:8px 0;border-bottom:1px solid var(--border)}
+      #dvtMprDemo .dmp-format-table td{border:0;padding:5px 0}
+      #dvtMprDemo .dmp-format-table td:before{content:attr(data-label);display:block;color:var(--muted-foreground);margin-bottom:2px}
+    }
+  </style>
+
+  <header class="dmp-header">
+    <div class="dmp-brand"><div class="dmp-brand-mark">D</div><div><strong>DVT Bildatlas</strong><span>Öffentliche MPR- und 3D-Probe</span></div></div>
+    <nav class="dmp-nav" aria-label="Demo-Navigation">
+      <button type="button" class="btn" data-view="overview" aria-pressed="false">Fallübersicht</button>
+      <button type="button" class="btn btn-primary" data-view="imaging" aria-pressed="true">MPR + 3D</button>
+      <button type="button" class="btn" data-view="formats" aria-pressed="false">Formatvergleich</button>
+    </nav>
+  </header>
+
+  <section class="dmp-view" data-view-panel="overview">
+    <div class="dmp-case-head"><div><strong>Testfall DVT_TEST_001</strong><span>Demonstrationsfall mit de-identifizierter Schnittbildgebung</span></div><div class="dmp-badges"><span class="viz-badge">DVT / CT</span><span class="viz-badge">0,2 mm isotrop</span><span class="viz-badge">MPR + 3D</span></div></div>
+    <div class="dmp-overview">
+      <div>
+        <p class="dmp-intro">Der Fall führt vom klinischen Kontext in eine synchronisierte multiplanare Ansicht und anschließend in die räumliche 3D-Orientierung.</p>
+        <div class="dmp-path">
+          <div class="dmp-path-step"><div class="dmp-path-num">1</div><div><strong>Klinische Ausgangslage</strong><span>Anamnese und Fragestellung werden vom behandelnden Arzt freigegeben.</span></div></div>
+          <div class="dmp-path-step"><div class="dmp-path-num">2</div><div><strong>Synchronisierte MPR</strong><span>Axial, koronal und sagittal treffen sich in einem gemeinsamen Punkt.</span></div></div>
+          <div class="dmp-path-step"><div class="dmp-path-num">3</div><div><strong>3D-Orientierung</strong><span>Das segmentierte Knochenmodell lässt sich drehen und zoomen; die drei Ebenen bleiben sichtbar.</span></div></div>
+          <div class="dmp-path-step"><div class="dmp-path-num">4</div><div><strong>Befund und Entscheidung</strong><span>Interpretation und Therapie werden erst nach fachlicher Freigabe ergänzt.</span></div></div>
+        </div>
+        <div class="dmp-actions"><button type="button" class="btn btn-primary" id="dmpOpenImaging">MPR-Arbeitsplatz öffnen</button><button type="button" class="btn" id="dmpOpenFormats">Formate ansehen</button></div>
+      </div>
+      <div><img class="dmp-preview" src="assets/3d-poster.jpg" alt="Vorschau einer koronalen Maximum-Intensity-Projektion"><div class="dmp-preview-caption">Aus demselben DICOM-Volumen erzeugte 3D-Vorschau</div></div>
+    </div>
+  </section>
+
+  <section class="dmp-view is-active" data-view-panel="imaging">
+    <div class="dmp-case-head"><div><strong>Testfall DVT_TEST_001</strong><span>Öffentliche Kurzprobe rund um die Beispielregion · nicht diagnostisch</span></div><div class="dmp-badges"><span class="viz-badge dmp-marker-badge">Grüne Demo-ROI</span><span class="viz-badge">17 Schichten je Ebene</span><span class="viz-badge">Quelle: 801 × 801 × 651</span><span class="viz-badge">229.912 3D-Flächen</span></div></div>
+    <div class="dmp-workspace-head">
+      <div class="dmp-story-tabs" role="tablist" aria-label="Fallkapitel">
+        <button type="button" class="btn" data-story="history" aria-pressed="false">Anamnese</button>
+        <button type="button" class="btn btn-primary" data-story="imaging" aria-pressed="true">Bildgebung</button>
+        <button type="button" class="btn" data-story="finding" aria-pressed="false">Befund</button>
+        <button type="button" class="btn" data-story="therapy" aria-pressed="false">Therapie</button>
+      </div>
+      <div class="dmp-workspace-actions"><button type="button" class="btn btn-primary" id="dmpMarkerFocus">Zum Demo-Marker</button><button type="button" class="btn" id="dmpMarkerToggle" aria-pressed="true">Marker an</button><button type="button" class="btn" id="dmpCenter">Demo zurücksetzen</button><button type="button" class="btn" id="dmpFullscreen">Vollbild</button><button type="button" class="btn" id="dmpHelpOpen">Bedienung</button></div>
+    </div>
+
+    <div class="dmp-workspace" id="dmpWorkspace">
+      <div class="dmp-mpr-grid" id="dmpMprGrid">
+        <section class="dmp-panel" aria-label="Axiale Rekonstruktion">
+          <div class="dmp-media" data-plane="axial" id="dmpAxialPane">
+            <img id="dmpAxialImage" src="frames/axial/0335.jpg" alt="Axiale DVT-Schicht">
+            <div class="dmp-pane-label"><strong>AXIAL</strong><span>Transversalebene</span></div><div class="dmp-pane-value" id="dmpAxialValue">Z 335 / 651</div>
+            <div class="dmp-cross dmp-cross-v dmp-axis-x" id="dmpAxialX"></div><div class="dmp-cross dmp-cross-h dmp-axis-y" id="dmpAxialY"></div>
+            <div class="dmp-marker" id="dmpAxialMarker"><span class="dmp-marker-label">Demo: mögliche Frakturregion</span></div>
+          </div>
+          <div class="dmp-panel-foot"><span>Scrollen: Z-Ebene</span><span>WC 120 · WW 1520</span></div>
+        </section>
+
+        <section class="dmp-panel" aria-label="Koronale Rekonstruktion">
+          <div class="dmp-media" data-plane="coronal" id="dmpCoronalPane">
+            <img id="dmpCoronalImage" src="frames/coronal/0331.jpg" alt="Koronale DVT-Rekonstruktion">
+            <div class="dmp-pane-label"><strong>KORONAL</strong><span>Frontalebene</span></div><div class="dmp-pane-value" id="dmpCoronalValue">Y 331 / 801</div>
+            <div class="dmp-cross dmp-cross-v dmp-axis-x" id="dmpCoronalX"></div><div class="dmp-cross dmp-cross-h dmp-axis-z" id="dmpCoronalZ"></div>
+            <div class="dmp-marker" id="dmpCoronalMarker"><span class="dmp-marker-label">Demo: mögliche Frakturregion</span></div>
+          </div>
+          <div class="dmp-panel-foot"><span>Scrollen: Y-Ebene</span><span>isotrop 0,2 mm</span></div>
+        </section>
+
+        <section class="dmp-panel" aria-label="Sagittale Rekonstruktion">
+          <div class="dmp-media" data-plane="sagittal" id="dmpSagittalPane">
+            <img id="dmpSagittalImage" src="frames/sagittal/0275.jpg" alt="Sagittale DVT-Rekonstruktion">
+            <div class="dmp-pane-label"><strong>SAGITTAL</strong><span>Seitenebene</span></div><div class="dmp-pane-value" id="dmpSagittalValue">X 275 / 801</div>
+            <div class="dmp-cross dmp-cross-v dmp-axis-y" id="dmpSagittalY"></div><div class="dmp-cross dmp-cross-h dmp-axis-z" id="dmpSagittalZ"></div>
+            <div class="dmp-marker" id="dmpSagittalMarker"><span class="dmp-marker-label">Demo: mögliche Frakturregion</span></div>
+          </div>
+          <div class="dmp-panel-foot"><span>Scrollen: X-Ebene</span><span>Klick: Kreuzpunkt</span></div>
+        </section>
+
+        <section class="dmp-panel" aria-label="Interaktive 3D-Rekonstruktion">
+          <div class="dmp-three-wrap" id="dmpThreeWrap">
+            <img class="dmp-three-fallback" id="dmpThreeFallback" src="assets/3d-poster.jpg" alt="3D-Vorschau des DVT-Volumens">
+            <canvas id="dmpThreeCanvas" role="img" aria-label="Drehbares 3D-Knochenmodell mit axialer, koronarer und sagittaler Schnittebene"></canvas>
+            <div class="dmp-pane-label"><strong>3D KNOCHEN</strong><span>Segmentierung ab 350 HU</span></div><div class="dmp-three-status" id="dmpThreeStatus">3D wird vorbereitet</div>
+          </div>
+          <div class="dmp-panel-foot"><button type="button" class="btn" id="dmpThreeReset">3D zurücksetzen</button><button type="button" class="btn" id="dmpThreePlanes" aria-pressed="true">Ebenen an</button><button type="button" class="btn" id="dmpThreeRotate" aria-pressed="true">Rotation an</button></div>
+        </section>
+      </div>
+
+      <div class="dmp-help" id="dmpHelp" hidden>
+        <div class="card dmp-help-box" role="dialog" aria-label="Bedienung der MPR-Ansicht"><strong>So untersucht der Arzt den Fall</strong><ol><li>Über einer Ansicht scrollen, um die jeweilige Ebene zu verschieben.</li><li>In axial, koronal oder sagittal klicken, um den gemeinsamen Kreuzpunkt zu setzen.</li><li>„Zum Demo-Marker“ führt zur grünen Beispielregion; ihre Lage muss ärztlich bestätigt werden.</li><li>Im 3D-Fenster mit der Maus drehen und mit dem Mausrad zoomen.</li><li>Die farbigen Ebenen im 3D-Modell folgen dem Kreuzpunkt.</li></ol><button type="button" class="btn btn-primary" id="dmpHelpClose">Fall untersuchen</button></div>
+      </div>
+    </div>
+
+    <div class="dmp-axis-controls">
+      <label class="dmp-axis-control" for="dmpXSlider"><span><strong><i class="dmp-axis-key dmp-axis-x"></i>Sagittal X</strong><output id="dmpXOutput">275 / 801</output></span><input class="form-range" id="dmpXSlider" type="range" min="267" max="283" value="275"></label>
+      <label class="dmp-axis-control" for="dmpYSlider"><span><strong><i class="dmp-axis-key dmp-axis-y"></i>Koronal Y</strong><output id="dmpYOutput">331 / 801</output></span><input class="form-range" id="dmpYSlider" type="range" min="323" max="339" value="331"></label>
+      <label class="dmp-axis-control" for="dmpZSlider"><span><strong><i class="dmp-axis-key dmp-axis-z"></i>Axial Z</strong><output id="dmpZOutput">335 / 651</output></span><input class="form-range" id="dmpZSlider" type="range" min="327" max="343" value="335"></label>
+    </div>
+    <div class="dmp-mpr-status"><span id="dmpPosition">Kreuzpunkt X 54,8 · Y 66,0 · Z 63,2 mm</span><span class="dmp-marker-status">Grün: Demo-Frakturregion · fachlich zu bestätigen</span><span>Öffentliche Probe: ±8 Schichten je Ebene</span></div>
+
+    <div class="dmp-info">
+      <div>
+        <section class="dmp-section dmp-story-panel" data-story-panel="history"><h3>Anamnese</h3><p>Die klinische Ausgangslage wird im realen Atlas vom behandelnden Arzt ergänzt und vor Veröffentlichung freigegeben.</p><ul><li>Beschwerden und Dauer</li><li>Voruntersuchungen</li><li>Konkrete DVT-Fragestellung</li></ul></section>
+        <section class="dmp-section dmp-story-panel is-active" data-story-panel="imaging"><h3>Bildgebung</h3><p>Alle drei Rekonstruktionen stammen aus demselben isotropen Volumen. Der gemeinsame Kreuzpunkt verbindet die anatomische Position über alle Ebenen und die 3D-Orientierung.</p></section>
+        <section class="dmp-section dmp-story-panel" data-story-panel="finding"><h3>Befund</h3><p>Die grüne ROI demonstriert eine mögliche Frakturmarkierung am gespeicherten MPR-Kreuzpunkt X 275 / Y 331 / Z 335. Position und Diagnose sind Platzhalter und müssen vor Veröffentlichung ärztlich bestätigt werden.</p></section>
+        <section class="dmp-section dmp-story-panel" data-story-panel="therapy"><h3>Therapie</h3><p>Die Therapieentscheidung folgt erst nach Bildgebung und ärztlich freigegebenem Befund. So bleibt die klinische Argumentation nachvollziehbar.</p></section>
+      </div>
+      <section class="dmp-section"><h3>Volumenstatus</h3><dl><div><dt>Quelle</dt><dd>Romexis 6 · Enhanced CT</dd></div><div><dt>Matrix</dt><dd>801 × 801 × 651</dd></div><div><dt>Voxel</dt><dd>0,2 mm isotrop</dd></div><div><dt>3D</dt><dd>114.676 Punkte</dd></div></dl></section>
+    </div>
+  </section>
+
+  <section class="dmp-view" data-view-panel="formats">
+    <div class="dmp-case-head"><div><strong>Drei Ebenen der technischen Bereitstellung</strong><span>Der Atlas trennt den medizinischen Master, die schnelle Präsentation und die Druckausgabe.</span></div></div>
+    <table class="dmp-format-table">
+      <thead><tr><th>Format</th><th>Inhalt</th><th>Stärken</th><th>Einsatz</th></tr></thead>
+      <tbody>
+        <tr><td data-label="Format"><strong>DICOM-Master</strong><span>.dcm · intern</span></td><td data-label="Inhalt">12-Bit-Pixel, Geometrie, Metadaten, 651 Frames</td><td data-label="Stärken">Echte Fensterung, Messungen, freie Rekonstruktionen und Planung</td><td data-label="Einsatz">Geschützter diagnostischer Viewer</td></tr>
+        <tr><td data-label="Format"><strong>MPR-Webpaket</strong><span>.jpg + 3D-Mesh</span></td><td data-label="Inhalt">Diese öffentliche Probe zeigt je 17 axiale, koronale und sagittale Bilder rund um die ROI; das Quellvolumen bleibt vollständig</td><td data-label="Stärken">Schnell, synchroner Kreuzpunkt und drehbares 3D</td><td data-label="Einsatz">Bildatlas, Fortbildung und Präsentation</td></tr>
+        <tr><td data-label="Format"><strong>Druckformat</strong><span>.png / .tiff</span></td><td data-label="Inhalt">Gezielt ausgewählte Schlüsselbilder aus allen Ebenen</td><td data-label="Stärken">Hohe Druckqualität und klare Befundmarkierung</td><td data-label="Einsatz">Broschüre; QR-Code führt zur MPR-Webansicht</td></tr>
+      </tbody>
+    </table>
+    <div class="dmp-web-check"><strong>Web-Prüfung der öffentlichen Kurzprobe</strong><dl><div><dt>Erstaufruf</dt><dd>ca. 5,47 MB vor Komprimierung</dd></div><div><dt>Gesamtpaket</dt><dd>ca. 7,4 MB</dd></div><div><dt>Bildstapel</dt><dd>51 Bilder · je 17 pro Ebene</dd></div><div><dt>Eignung</dt><dd>Gut für Linkfreigabe und Präsentation</dd></div></dl></div>
+    <div class="dmp-decision"><strong>Für diese Probe aktiv: vorgerenderte MPR + interaktives 3D-Mesh</strong><span>Das ermöglicht den Romexis-ähnlichen Bedienungseindruck ohne die große DICOM-Datei im öffentlichen Webpaket. Für diagnostische Messung und freie Fensterung bleibt ein echter DICOMweb-Viewer erforderlich.</span></div>
+    <div class="dmp-actions"><button type="button" class="btn btn-primary" id="dmpFormatToImaging">MPR + 3D ausprobieren</button></div>
+  </section>
+
+  <script src="assets/three.min.js"></script>
+  <script src="assets/OrbitControls.js"></script>
+  <script src="assets/mesh-data.js"></script>
+  <script>
+    (()=>{
+      const root=document.getElementById('dvtMprDemo');
+      const dimensions={x:801,y:801,z:651};
+      const ranges={x:{min:267,max:283},y:{min:323,max:339},z:{min:327,max:343}};
+      const spacing=0.2;
+      const center={x:275,y:331,z:335};
+      const demoMarker={x:275,y:331,z:335};
+      const state={...demoMarker};
+      let markerVisible=true;
+      const views=[...root.querySelectorAll('[data-view-panel]')];
+      const navButtons=[...root.querySelectorAll('[data-view]')];
+      const images={x:root.querySelector('#dmpSagittalImage'),y:root.querySelector('#dmpCoronalImage'),z:root.querySelector('#dmpAxialImage')};
+      const sliders={x:root.querySelector('#dmpXSlider'),y:root.querySelector('#dmpYSlider'),z:root.querySelector('#dmpZSlider')};
+      const outputs={x:root.querySelector('#dmpXOutput'),y:root.querySelector('#dmpYOutput'),z:root.querySelector('#dmpZOutput')};
+      const pathFor=(axis,value)=>axis==='z'?'frames/axial/'+String(value).padStart(4,'0')+'.jpg':axis==='y'?'frames/coronal/'+String(value).padStart(4,'0')+'.jpg':'frames/sagittal/'+String(value).padStart(4,'0')+'.jpg';
+      const percent=(value,total)=>((value-1)/(total-1))*100;
+      const clamp=(value,min,max)=>Math.max(min,Math.min(max,Math.round(value)));
+      let sliceFrames=[];
+      let marker3D=null;
+
+      function showView(name){
+        views.forEach(panel=>panel.classList.toggle('is-active',panel.dataset.viewPanel===name));
+        navButtons.forEach(button=>{const active=button.dataset.view===name;button.setAttribute('aria-pressed',String(active));button.classList.toggle('btn-primary',active);});
+        if(name==='imaging')requestAnimationFrame(resize3D);
+      }
+      navButtons.forEach(button=>button.addEventListener('click',()=>showView(button.dataset.view)));
+      root.querySelector('#dmpOpenImaging').addEventListener('click',()=>showView('imaging'));
+      root.querySelector('#dmpOpenFormats').addEventListener('click',()=>showView('formats'));
+      root.querySelector('#dmpFormatToImaging').addEventListener('click',()=>showView('imaging'));
+
+      const storyButtons=[...root.querySelectorAll('[data-story]')];
+      const storyPanels=[...root.querySelectorAll('[data-story-panel]')];
+      storyButtons.forEach(button=>button.addEventListener('click',()=>{
+        const name=button.dataset.story;
+        storyButtons.forEach(item=>{const active=item===button;item.setAttribute('aria-pressed',String(active));item.classList.toggle('btn-primary',active);});
+        storyPanels.forEach(panel=>panel.classList.toggle('is-active',panel.dataset.storyPanel===name));
+      }));
+
+      function preload(axis,value){
+        [-2,-1,1,2].forEach(delta=>{const candidate=value+delta;if(candidate<ranges[axis].min||candidate>ranges[axis].max)return;const image=new Image();image.src=pathFor(axis,candidate);});
+      }
+      function setMarkerElement(id,visible,left,top){const element=root.querySelector(id);element.hidden=!markerVisible||!visible;element.style.left=left+'%';element.style.top=top+'%';}
+      function updateDemoMarkers(){
+        setMarkerElement('#dmpAxialMarker',Math.abs(state.z-demoMarker.z)<=4,percent(demoMarker.x,dimensions.x),percent(demoMarker.y,dimensions.y));
+        setMarkerElement('#dmpCoronalMarker',Math.abs(state.y-demoMarker.y)<=4,percent(demoMarker.x,dimensions.x),9.36+percent(demoMarker.z,dimensions.z)*.8128);
+        setMarkerElement('#dmpSagittalMarker',Math.abs(state.x-demoMarker.x)<=4,100-percent(demoMarker.y,dimensions.y),9.36+percent(demoMarker.z,dimensions.z)*.8128);
+        if(marker3D)marker3D.visible=markerVisible;
+      }
+      function renderMpr(changedAxis){
+        images.x.src=pathFor('x',state.x);
+        images.y.src=pathFor('y',state.y);
+        images.z.src=pathFor('z',state.z);
+        Object.keys(sliders).forEach(axis=>{sliders[axis].value=String(state[axis]);outputs[axis].textContent=state[axis]+' / '+dimensions[axis];});
+        root.querySelector('#dmpSagittalValue').textContent='X '+state.x+' / '+dimensions.x;
+        root.querySelector('#dmpCoronalValue').textContent='Y '+state.y+' / '+dimensions.y;
+        root.querySelector('#dmpAxialValue').textContent='Z '+state.z+' / '+dimensions.z;
+        root.querySelector('#dmpAxialX').style.left=percent(state.x,dimensions.x)+'%';
+        root.querySelector('#dmpAxialY').style.top=percent(state.y,dimensions.y)+'%';
+        root.querySelector('#dmpCoronalX').style.left=percent(state.x,dimensions.x)+'%';
+        root.querySelector('#dmpCoronalZ').style.top=(9.36+percent(state.z,dimensions.z)*0.8128)+'%';
+        root.querySelector('#dmpSagittalY').style.left=(100-percent(state.y,dimensions.y))+'%';
+        root.querySelector('#dmpSagittalZ').style.top=(9.36+percent(state.z,dimensions.z)*0.8128)+'%';
+        root.querySelector('#dmpPosition').textContent='Kreuzpunkt X '+((state.x-1)*spacing).toFixed(1).replace('.',',')+' · Y '+((state.y-1)*spacing).toFixed(1).replace('.',',')+' · Z '+((dimensions.z-state.z)*spacing).toFixed(1).replace('.',',')+' mm';
+        updateDemoMarkers();
+        update3DPlanes();
+        if(changedAxis)preload(changedAxis,state[changedAxis]);
+      }
+      function setAxis(axis,value){state[axis]=clamp(value,ranges[axis].min,ranges[axis].max);renderMpr(axis);}
+      Object.keys(sliders).forEach(axis=>sliders[axis].addEventListener('input',()=>setAxis(axis,Number(sliders[axis].value))));
+      root.querySelector('#dmpCenter').addEventListener('click',()=>{Object.assign(state,center);renderMpr();reset3D();});
+      root.querySelector('#dmpMarkerFocus').addEventListener('click',()=>{Object.assign(state,demoMarker);renderMpr();});
+      root.querySelector('#dmpMarkerToggle').addEventListener('click',event=>{markerVisible=!markerVisible;event.currentTarget.setAttribute('aria-pressed',String(markerVisible));event.currentTarget.textContent=markerVisible?'Marker an':'Marker aus';updateDemoMarkers();});
+
+      const imagePadding=0.0936;
+      function wirePane(plane,id){
+        const pane=root.querySelector(id);
+        pane.addEventListener('wheel',event=>{event.preventDefault();const axis=plane==='axial'?'z':plane==='coronal'?'y':'x';setAxis(axis,state[axis]+(event.deltaY>0?1:-1));},{passive:false});
+        pane.addEventListener('click',event=>{
+          const rect=pane.getBoundingClientRect();
+          const rx=Math.max(0,Math.min(1,(event.clientX-rect.left)/rect.width));
+          const rawY=(event.clientY-rect.top)/rect.height;
+          const ry=Math.max(0,Math.min(1,(rawY-imagePadding)/(1-imagePadding*2)));
+          if(plane==='axial'){state.x=clamp(1+rx*(dimensions.x-1),ranges.x.min,ranges.x.max);state.y=clamp(1+rawY*(dimensions.y-1),ranges.y.min,ranges.y.max);}
+          if(plane==='coronal'){state.x=clamp(1+rx*(dimensions.x-1),ranges.x.min,ranges.x.max);state.z=clamp(1+ry*(dimensions.z-1),ranges.z.min,ranges.z.max);}
+          if(plane==='sagittal'){state.y=clamp(dimensions.y-rx*(dimensions.y-1),ranges.y.min,ranges.y.max);state.z=clamp(1+ry*(dimensions.z-1),ranges.z.min,ranges.z.max);}
+          renderMpr();
+        });
+      }
+      wirePane('axial','#dmpAxialPane');wirePane('coronal','#dmpCoronalPane');wirePane('sagittal','#dmpSagittalPane');
+
+      const help=root.querySelector('#dmpHelp');
+      root.querySelector('#dmpHelpOpen').addEventListener('click',()=>help.hidden=false);
+      root.querySelector('#dmpHelpClose').addEventListener('click',()=>help.hidden=true);
+      root.querySelector('#dmpFullscreen').addEventListener('click',async()=>{if(document.fullscreenElement){await document.exitFullscreen();}else if(root.querySelector('#dmpWorkspace').requestFullscreen){await root.querySelector('#dmpWorkspace').requestFullscreen();}});
+
+      let renderer=null,scene=null,camera=null,controls=null,model=null,animationFrame=null;
+      const planeObjects={x:null,y:null,z:null};
+      const threeWrap=root.querySelector('#dmpThreeWrap');
+      const threeCanvas=root.querySelector('#dmpThreeCanvas');
+      const threeStatus=root.querySelector('#dmpThreeStatus');
+      const threeFallback=root.querySelector('#dmpThreeFallback');
+      const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function decodeBase64(value,Type){const binary=atob(value);const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);return new Type(bytes.buffer);}
+      function makeLine(points,color){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(points,3));const line=new THREE.LineLoop(geometry,new THREE.LineBasicMaterial({color,transparent:true,opacity:.88,depthTest:false}));line.renderOrder=5;scene.add(line);return line;}
+      function update3DPlanes(){
+        if(!planeObjects.x)return;
+        planeObjects.x.position.x=(state.x-1)*spacing-sliceFrames.center.x;
+        planeObjects.y.position.z=(state.y-1)*spacing-sliceFrames.center.z;
+        planeObjects.z.position.y=-(state.z-1)*spacing-sliceFrames.center.y;
+      }
+      function createSliceFrames(centerValue){
+        const x0=-centerValue.x,x1=(dimensions.x-1)*spacing-centerValue.x;
+        const y0=-(dimensions.z-1)*spacing-centerValue.y,y1=-centerValue.y;
+        const z0=-centerValue.z,z1=(dimensions.y-1)*spacing-centerValue.z;
+        planeObjects.x=makeLine([0,y0,z0,0,y1,z0,0,y1,z1,0,y0,z1],0xf39a56);
+        planeObjects.y=makeLine([x0,y0,0,x1,y0,0,x1,y1,0,x0,y1,0],0x74d58b);
+        planeObjects.z=makeLine([x0,0,z0,x1,0,z0,x1,0,z1,x0,0,z1],0x83c3ff);
+        sliceFrames.center=centerValue;
+        update3DPlanes();
+      }
+      function create3DMarker(centerValue){const geometry=new THREE.SphereGeometry(3.2,24,16);const material=new THREE.MeshStandardMaterial({color:0x62d681,emissive:0x174c27,emissiveIntensity:.8,transparent:true,opacity:.95,depthTest:false});marker3D=new THREE.Mesh(geometry,material);marker3D.position.set((demoMarker.x-1)*spacing-centerValue.x,-(demoMarker.z-1)*spacing-centerValue.y,(demoMarker.y-1)*spacing-centerValue.z);marker3D.renderOrder=8;scene.add(marker3D);marker3D.visible=markerVisible;}
+      function resize3D(){if(!renderer||!camera)return;const width=Math.max(1,threeWrap.clientWidth);const height=Math.max(1,threeWrap.clientHeight);renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}
+      function reset3D(){if(!camera||!controls||!model)return;const radius=model.geometry.boundingSphere.radius;camera.position.set(radius*2.4,radius*1.4,radius*2.7);controls.target.set(0,0,0);controls.update();}
+      function init3D(){
+        if(!window.THREE||!window.DVT_MESH){threeStatus.textContent='3D nicht verfügbar · MIP-Vorschau aktiv';threeCanvas.hidden=true;return;}
+        try{
+          renderer=new THREE.WebGLRenderer({canvas:threeCanvas,antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.setClearColor(0x050709,1);renderer.outputEncoding=THREE.sRGBEncoding;
+          scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(32,1,.1,1000);
+          const payload=window.DVT_MESH;const quantized=decodeBase64(payload.positions,Uint16Array);const positions=new Float32Array(quantized.length);
+          for(let i=0;i<quantized.length;i+=3){positions[i]=payload.minimum[0]+quantized[i]/65535*payload.span[0];positions[i+1]=payload.minimum[1]+quantized[i+1]/65535*payload.span[1];positions[i+2]=payload.minimum[2]+quantized[i+2]/65535*payload.span[2];}
+          const indices=decodeBase64(payload.indices,payload.indexType==='uint16'?Uint16Array:Uint32Array);const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));geometry.setIndex(new THREE.BufferAttribute(indices,1));geometry.computeVertexNormals();geometry.computeBoundingBox();
+          const modelCenter=new THREE.Vector3();geometry.boundingBox.getCenter(modelCenter);geometry.translate(-modelCenter.x,-modelCenter.y,-modelCenter.z);geometry.computeBoundingSphere();
+          const material=new THREE.MeshStandardMaterial({color:0xd5cdbf,roughness:.78,metalness:.02,side:THREE.DoubleSide});model=new THREE.Mesh(geometry,material);scene.add(model);
+          scene.add(new THREE.HemisphereLight(0xe9f2ff,0x23272c,.9));const key=new THREE.DirectionalLight(0xffffff,.8);key.position.set(1.5,2,2.5);scene.add(key);const rim=new THREE.DirectionalLight(0x8fb9ff,.4);rim.position.set(-2,-.5,-1);scene.add(rim);
+          controls=new THREE.OrbitControls(camera,threeCanvas);controls.enableDamping=true;controls.dampingFactor=.07;controls.autoRotate=!reduceMotion;controls.autoRotateSpeed=1.1;controls.enablePan=false;
+          createSliceFrames(modelCenter);create3DMarker(modelCenter);reset3D();resize3D();threeFallback.hidden=true;threeStatus.textContent='Grün: Demo-Frakturregion · Ziehen: drehen · Mausrad: zoomen';
+          const animate=()=>{animationFrame=requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);};animate();
+          if(window.ResizeObserver)new ResizeObserver(resize3D).observe(threeWrap);else window.addEventListener('resize',resize3D);
+          if(reduceMotion){const rotateButton=root.querySelector('#dmpThreeRotate');rotateButton.setAttribute('aria-pressed','false');rotateButton.textContent='Rotation aus';}
+        }catch(error){threeStatus.textContent='3D nicht verfügbar · MIP-Vorschau aktiv';threeCanvas.hidden=true;}
+      }
+      root.querySelector('#dmpThreeReset').addEventListener('click',reset3D);
+      root.querySelector('#dmpThreePlanes').addEventListener('click',event=>{const visible=event.currentTarget.getAttribute('aria-pressed')!=='true';event.currentTarget.setAttribute('aria-pressed',String(visible));event.currentTarget.textContent=visible?'Ebenen an':'Ebenen aus';Object.values(planeObjects).forEach(object=>{if(object)object.visible=visible;});});
+      root.querySelector('#dmpThreeRotate').addEventListener('click',event=>{if(!controls)return;controls.autoRotate=!controls.autoRotate;event.currentTarget.setAttribute('aria-pressed',String(controls.autoRotate));event.currentTarget.textContent=controls.autoRotate?'Rotation an':'Rotation aus';});
+      document.addEventListener('keydown',event=>{if(event.key==='ArrowUp'||event.key==='ArrowLeft')setAxis('z',state.z-1);if(event.key==='ArrowDown'||event.key==='ArrowRight')setAxis('z',state.z+1);});
+      window.addEventListener('pagehide',()=>{if(animationFrame)cancelAnimationFrame(animationFrame);});
+      renderMpr();init3D();
+    })();
+  </script>
+</div>
+
+</body>
+</html>
