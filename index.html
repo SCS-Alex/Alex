@@ -998,6 +998,8 @@ html>body{padding:0}</style>
       const images={x:root.querySelector('#dmpSagittalImage'),y:root.querySelector('#dmpCoronalImage'),z:root.querySelector('#dmpAxialImage')};
       const sliders={x:root.querySelector('#dmpXSlider'),y:root.querySelector('#dmpYSlider'),z:root.querySelector('#dmpZSlider')};
       const outputs={x:root.querySelector('#dmpXOutput'),y:root.querySelector('#dmpYOutput'),z:root.querySelector('#dmpZOutput')};
+      const localFileMode=location.protocol==='file:';
+      const directPathFor=(axis,value)=>axis==='z'?'frames/axial/'+String(value).padStart(4,'0')+'.jpg':axis==='y'?'frames/coronal/'+String(value).padStart(4,'0')+'.jpg':'frames/sagittal/'+String(value).padStart(4,'0')+'.jpg';
       const percent=(value,total)=>((value-1)/(total-1))*100;
       const clamp=(value,min,max)=>Math.max(min,Math.min(max,Math.round(value)));
       const snapToRange=(axis,value)=>{const range=ranges[axis];return clamp(range.min+Math.round((value-range.min)/range.step)*range.step,range.min,range.max);};
@@ -1032,6 +1034,7 @@ html>body{padding:0}</style>
       }
 
       async function loadSlice(axis,value){
+        if(localFileMode){images[axis].src=directPathFor(axis,value);return;}
         const token=++imageTokens[axis];
         try{const url=await getSliceUrl(axis,value);if(token===imageTokens[axis])images[axis].src=url;}
         catch(error){console.error(error);}
@@ -1056,7 +1059,7 @@ html>body{padding:0}</style>
       }));
 
       function preload(axis,value){
-        [-4,-2,2,4].forEach(delta=>{const candidate=value+delta;if(candidate<ranges[axis].min||candidate>ranges[axis].max)return;getSliceUrl(axis,candidate).catch(()=>{});});
+        [-4,-2,2,4].forEach(delta=>{const candidate=value+delta;if(candidate<ranges[axis].min||candidate>ranges[axis].max)return;if(localFileMode){const image=new Image();image.src=directPathFor(axis,candidate);}else{getSliceUrl(axis,candidate).catch(()=>{});}});
       }
       function setMarkerElement(id,visible,left,top){const element=root.querySelector(id);element.hidden=!markerVisible||!visible;element.style.left=left+'%';element.style.top=top+'%';}
       function updateDemoMarkers(){
