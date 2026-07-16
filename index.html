@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>DVT Bildatlas – öffentliche MPR- und 3D-Probe</title>
+<title>DVT Bildatlas – 171 MPR-Schichten und 3D</title>
 <style>:root {
   color-scheme: light dark;
   background-color: var(--background) !important;
@@ -888,7 +888,7 @@ html>body{padding:0}</style>
   </section>
 
   <section class="dmp-view is-active" data-view-panel="imaging">
-    <div class="dmp-case-head"><div><strong>Testfall DVT_TEST_001</strong><span>Öffentliche Kurzprobe rund um die Beispielregion · nicht diagnostisch</span></div><div class="dmp-badges"><span class="viz-badge dmp-marker-badge">Grüne Demo-ROI</span><span class="viz-badge">17 Schichten je Ebene</span><span class="viz-badge">Quelle: 801 × 801 × 651</span><span class="viz-badge">229.912 3D-Flächen</span></div></div>
+    <div class="dmp-case-head"><div><strong>Testfall DVT_TEST_001</strong><span>Erweiterte öffentliche Probe rund um die Beispielregion · nicht diagnostisch</span></div><div class="dmp-badges"><span class="viz-badge dmp-marker-badge">Grüne Demo-ROI</span><span class="viz-badge">171 Schichten je Ebene</span><span class="viz-badge">jede 3. Originalschicht</span><span class="viz-badge">229.912 3D-Flächen</span></div></div>
     <div class="dmp-workspace-head">
       <div class="dmp-story-tabs" role="tablist" aria-label="Fallkapitel">
         <button type="button" class="btn" data-story="history" aria-pressed="false">Anamnese</button>
@@ -947,11 +947,11 @@ html>body{padding:0}</style>
     </div>
 
     <div class="dmp-axis-controls">
-      <label class="dmp-axis-control" for="dmpXSlider"><span><strong><i class="dmp-axis-key dmp-axis-x"></i>Sagittal X</strong><output id="dmpXOutput">275 / 801</output></span><input class="form-range" id="dmpXSlider" type="range" min="267" max="283" value="275"></label>
-      <label class="dmp-axis-control" for="dmpYSlider"><span><strong><i class="dmp-axis-key dmp-axis-y"></i>Koronal Y</strong><output id="dmpYOutput">331 / 801</output></span><input class="form-range" id="dmpYSlider" type="range" min="323" max="339" value="331"></label>
-      <label class="dmp-axis-control" for="dmpZSlider"><span><strong><i class="dmp-axis-key dmp-axis-z"></i>Axial Z</strong><output id="dmpZOutput">335 / 651</output></span><input class="form-range" id="dmpZSlider" type="range" min="327" max="343" value="335"></label>
+      <label class="dmp-axis-control" for="dmpXSlider"><span><strong><i class="dmp-axis-key dmp-axis-x"></i>Sagittal X</strong><output id="dmpXOutput">275 / 801</output></span><input class="form-range" id="dmpXSlider" type="range" min="20" max="530" step="3" value="275"></label>
+      <label class="dmp-axis-control" for="dmpYSlider"><span><strong><i class="dmp-axis-key dmp-axis-y"></i>Koronal Y</strong><output id="dmpYOutput">331 / 801</output></span><input class="form-range" id="dmpYSlider" type="range" min="76" max="586" step="3" value="331"></label>
+      <label class="dmp-axis-control" for="dmpZSlider"><span><strong><i class="dmp-axis-key dmp-axis-z"></i>Axial Z</strong><output id="dmpZOutput">335 / 651</output></span><input class="form-range" id="dmpZSlider" type="range" min="80" max="590" step="3" value="335"></label>
     </div>
-    <div class="dmp-mpr-status"><span id="dmpPosition">Kreuzpunkt X 54,8 · Y 66,0 · Z 63,2 mm</span><span class="dmp-marker-status">Grün: Demo-Frakturregion · fachlich zu bestätigen</span><span>Öffentliche Probe: ±8 Schichten je Ebene</span></div>
+    <div class="dmp-mpr-status"><span id="dmpPosition">Kreuzpunkt X 54,8 · Y 66,0 · Z 63,2 mm</span><span class="dmp-marker-status">Grün: Demo-Frakturregion · fachlich zu bestätigen</span><span>171 Schichten je Ebene · Raster 0,6 mm</span></div>
 
     <div class="dmp-info">
       <div>
@@ -970,11 +970,11 @@ html>body{padding:0}</style>
       <thead><tr><th>Format</th><th>Inhalt</th><th>Stärken</th><th>Einsatz</th></tr></thead>
       <tbody>
         <tr><td data-label="Format"><strong>DICOM-Master</strong><span>.dcm · intern</span></td><td data-label="Inhalt">12-Bit-Pixel, Geometrie, Metadaten, 651 Frames</td><td data-label="Stärken">Echte Fensterung, Messungen, freie Rekonstruktionen und Planung</td><td data-label="Einsatz">Geschützter diagnostischer Viewer</td></tr>
-        <tr><td data-label="Format"><strong>MPR-Webpaket</strong><span>.jpg + 3D-Mesh</span></td><td data-label="Inhalt">Diese öffentliche Probe zeigt je 17 axiale, koronale und sagittale Bilder rund um die ROI; das Quellvolumen bleibt vollständig</td><td data-label="Stärken">Schnell, synchroner Kreuzpunkt und drehbares 3D</td><td data-label="Einsatz">Bildatlas, Fortbildung und Präsentation</td></tr>
+        <tr><td data-label="Format"><strong>MPR-Webpaket</strong><span>gepackte .jpg + 3D-Mesh</span></td><td data-label="Inhalt">Je 171 axiale, koronale und sagittale Bilder; verwendet wird jede dritte Originalschicht</td><td data-label="Stärken">Großer Navigationsbereich, synchroner Kreuzpunkt und drehbares 3D</td><td data-label="Einsatz">Bildatlas, Fortbildung und Präsentation</td></tr>
         <tr><td data-label="Format"><strong>Druckformat</strong><span>.png / .tiff</span></td><td data-label="Inhalt">Gezielt ausgewählte Schlüsselbilder aus allen Ebenen</td><td data-label="Stärken">Hohe Druckqualität und klare Befundmarkierung</td><td data-label="Einsatz">Broschüre; QR-Code führt zur MPR-Webansicht</td></tr>
       </tbody>
     </table>
-    <div class="dmp-web-check"><strong>Web-Prüfung der öffentlichen Kurzprobe</strong><dl><div><dt>Erstaufruf</dt><dd>ca. 5,47 MB vor Komprimierung</dd></div><div><dt>Gesamtpaket</dt><dd>ca. 7,4 MB</dd></div><div><dt>Bildstapel</dt><dd>51 Bilder · je 17 pro Ebene</dd></div><div><dt>Eignung</dt><dd>Gut für Linkfreigabe und Präsentation</dd></div></dl></div>
+    <div class="dmp-web-check"><strong>Web-Prüfung der erweiterten Probe</strong><dl><div><dt>Übertragung</dt><dd>maximal ca. 23 MB beim ersten Besuch</dd></div><div><dt>Danach</dt><dd>Schichtwechsel aus dem Browser-Cache</dd></div><div><dt>Bildstapel</dt><dd>513 Bilder · je 171 pro Ebene</dd></div><div><dt>Organisation</dt><dd>Drei kompakte Bildcontainer</dd></div></dl></div>
     <div class="dmp-decision"><strong>Für diese Probe aktiv: vorgerenderte MPR + interaktives 3D-Mesh</strong><span>Das ermöglicht den Romexis-ähnlichen Bedienungseindruck ohne die große DICOM-Datei im öffentlichen Webpaket. Für diagnostische Messung und freie Fensterung bleibt ein echter DICOMweb-Viewer erforderlich.</span></div>
     <div class="dmp-actions"><button type="button" class="btn btn-primary" id="dmpFormatToImaging">MPR + 3D ausprobieren</button></div>
   </section>
@@ -982,11 +982,12 @@ html>body{padding:0}</style>
   <script src="assets/three.min.js"></script>
   <script src="assets/OrbitControls.js"></script>
   <script src="assets/mesh-data.js"></script>
+  <script src="assets/slice-index.js"></script>
   <script>
     (()=>{
       const root=document.getElementById('dvtMprDemo');
       const dimensions={x:801,y:801,z:651};
-      const ranges={x:{min:267,max:283},y:{min:323,max:339},z:{min:327,max:343}};
+      const ranges={x:{min:20,max:530,step:3},y:{min:76,max:586,step:3},z:{min:80,max:590,step:3}};
       const spacing=0.2;
       const center={x:275,y:331,z:335};
       const demoMarker={x:275,y:331,z:335};
@@ -997,11 +998,43 @@ html>body{padding:0}</style>
       const images={x:root.querySelector('#dmpSagittalImage'),y:root.querySelector('#dmpCoronalImage'),z:root.querySelector('#dmpAxialImage')};
       const sliders={x:root.querySelector('#dmpXSlider'),y:root.querySelector('#dmpYSlider'),z:root.querySelector('#dmpZSlider')};
       const outputs={x:root.querySelector('#dmpXOutput'),y:root.querySelector('#dmpYOutput'),z:root.querySelector('#dmpZOutput')};
-      const pathFor=(axis,value)=>axis==='z'?'frames/axial/'+String(value).padStart(4,'0')+'.jpg':axis==='y'?'frames/coronal/'+String(value).padStart(4,'0')+'.jpg':'frames/sagittal/'+String(value).padStart(4,'0')+'.jpg';
       const percent=(value,total)=>((value-1)/(total-1))*100;
       const clamp=(value,min,max)=>Math.max(min,Math.min(max,Math.round(value)));
+      const snapToRange=(axis,value)=>{const range=ranges[axis];return clamp(range.min+Math.round((value-range.min)/range.step)*range.step,range.min,range.max);};
+      const sliceCache={x:new Map(),y:new Map(),z:new Map()};
+      const imageTokens={x:0,y:0,z:0};
+      const wholePacks={x:null,y:null,z:null};
       let sliceFrames=[];
       let marker3D=null;
+
+      async function getSliceUrl(axis,value){
+        const cached=sliceCache[axis].get(value);
+        if(cached)return cached;
+        const promise=(async()=>{
+          const pack=window.DVT_SLICE_INDEX[axis];
+          const entry=pack.entries[String(value)];
+          if(!entry)throw new Error('Schicht nicht im Webpaket: '+axis+' '+value);
+          const [offset,length]=entry;
+          let bytes;
+          if(wholePacks[axis]){
+            const whole=await wholePacks[axis];
+            bytes=whole.slice(offset,offset+length);
+          }else{
+            const response=await fetch(pack.file,{headers:{Range:'bytes='+offset+'-'+(offset+length-1)}});
+            const buffer=await response.arrayBuffer();
+            if(response.status===206){bytes=buffer;}else{wholePacks[axis]=Promise.resolve(buffer);bytes=buffer.slice(offset,offset+length);}
+          }
+          return URL.createObjectURL(new Blob([bytes],{type:'image/jpeg'}));
+        })();
+        sliceCache[axis].set(value,promise);
+        return promise;
+      }
+
+      async function loadSlice(axis,value){
+        const token=++imageTokens[axis];
+        try{const url=await getSliceUrl(axis,value);if(token===imageTokens[axis])images[axis].src=url;}
+        catch(error){console.error(error);}
+      }
 
       function showView(name){
         views.forEach(panel=>panel.classList.toggle('is-active',panel.dataset.viewPanel===name));
@@ -1022,7 +1055,7 @@ html>body{padding:0}</style>
       }));
 
       function preload(axis,value){
-        [-2,-1,1,2].forEach(delta=>{const candidate=value+delta;if(candidate<ranges[axis].min||candidate>ranges[axis].max)return;const image=new Image();image.src=pathFor(axis,candidate);});
+        [-6,-3,3,6].forEach(delta=>{const candidate=value+delta;if(candidate<ranges[axis].min||candidate>ranges[axis].max)return;getSliceUrl(axis,candidate).catch(()=>{});});
       }
       function setMarkerElement(id,visible,left,top){const element=root.querySelector(id);element.hidden=!markerVisible||!visible;element.style.left=left+'%';element.style.top=top+'%';}
       function updateDemoMarkers(){
@@ -1032,9 +1065,9 @@ html>body{padding:0}</style>
         if(marker3D)marker3D.visible=markerVisible;
       }
       function renderMpr(changedAxis){
-        images.x.src=pathFor('x',state.x);
-        images.y.src=pathFor('y',state.y);
-        images.z.src=pathFor('z',state.z);
+        loadSlice('x',state.x);
+        loadSlice('y',state.y);
+        loadSlice('z',state.z);
         Object.keys(sliders).forEach(axis=>{sliders[axis].value=String(state[axis]);outputs[axis].textContent=state[axis]+' / '+dimensions[axis];});
         root.querySelector('#dmpSagittalValue').textContent='X '+state.x+' / '+dimensions.x;
         root.querySelector('#dmpCoronalValue').textContent='Y '+state.y+' / '+dimensions.y;
@@ -1050,7 +1083,7 @@ html>body{padding:0}</style>
         update3DPlanes();
         if(changedAxis)preload(changedAxis,state[changedAxis]);
       }
-      function setAxis(axis,value){state[axis]=clamp(value,ranges[axis].min,ranges[axis].max);renderMpr(axis);}
+      function setAxis(axis,value){state[axis]=snapToRange(axis,value);renderMpr(axis);}
       Object.keys(sliders).forEach(axis=>sliders[axis].addEventListener('input',()=>setAxis(axis,Number(sliders[axis].value))));
       root.querySelector('#dmpCenter').addEventListener('click',()=>{Object.assign(state,center);renderMpr();reset3D();});
       root.querySelector('#dmpMarkerFocus').addEventListener('click',()=>{Object.assign(state,demoMarker);renderMpr();});
@@ -1059,15 +1092,15 @@ html>body{padding:0}</style>
       const imagePadding=0.0936;
       function wirePane(plane,id){
         const pane=root.querySelector(id);
-        pane.addEventListener('wheel',event=>{event.preventDefault();const axis=plane==='axial'?'z':plane==='coronal'?'y':'x';setAxis(axis,state[axis]+(event.deltaY>0?1:-1));},{passive:false});
+        pane.addEventListener('wheel',event=>{event.preventDefault();const axis=plane==='axial'?'z':plane==='coronal'?'y':'x';setAxis(axis,state[axis]+(event.deltaY>0?ranges[axis].step:-ranges[axis].step));},{passive:false});
         pane.addEventListener('click',event=>{
           const rect=pane.getBoundingClientRect();
           const rx=Math.max(0,Math.min(1,(event.clientX-rect.left)/rect.width));
           const rawY=(event.clientY-rect.top)/rect.height;
           const ry=Math.max(0,Math.min(1,(rawY-imagePadding)/(1-imagePadding*2)));
-          if(plane==='axial'){state.x=clamp(1+rx*(dimensions.x-1),ranges.x.min,ranges.x.max);state.y=clamp(1+rawY*(dimensions.y-1),ranges.y.min,ranges.y.max);}
-          if(plane==='coronal'){state.x=clamp(1+rx*(dimensions.x-1),ranges.x.min,ranges.x.max);state.z=clamp(1+ry*(dimensions.z-1),ranges.z.min,ranges.z.max);}
-          if(plane==='sagittal'){state.y=clamp(dimensions.y-rx*(dimensions.y-1),ranges.y.min,ranges.y.max);state.z=clamp(1+ry*(dimensions.z-1),ranges.z.min,ranges.z.max);}
+          if(plane==='axial'){state.x=snapToRange('x',1+rx*(dimensions.x-1));state.y=snapToRange('y',1+rawY*(dimensions.y-1));}
+          if(plane==='coronal'){state.x=snapToRange('x',1+rx*(dimensions.x-1));state.z=snapToRange('z',1+ry*(dimensions.z-1));}
+          if(plane==='sagittal'){state.y=snapToRange('y',dimensions.y-rx*(dimensions.y-1));state.z=snapToRange('z',1+ry*(dimensions.z-1));}
           renderMpr();
         });
       }
@@ -1128,7 +1161,7 @@ html>body{padding:0}</style>
       root.querySelector('#dmpThreeReset').addEventListener('click',reset3D);
       root.querySelector('#dmpThreePlanes').addEventListener('click',event=>{const visible=event.currentTarget.getAttribute('aria-pressed')!=='true';event.currentTarget.setAttribute('aria-pressed',String(visible));event.currentTarget.textContent=visible?'Ebenen an':'Ebenen aus';Object.values(planeObjects).forEach(object=>{if(object)object.visible=visible;});});
       root.querySelector('#dmpThreeRotate').addEventListener('click',event=>{if(!controls)return;controls.autoRotate=!controls.autoRotate;event.currentTarget.setAttribute('aria-pressed',String(controls.autoRotate));event.currentTarget.textContent=controls.autoRotate?'Rotation an':'Rotation aus';});
-      document.addEventListener('keydown',event=>{if(event.key==='ArrowUp'||event.key==='ArrowLeft')setAxis('z',state.z-1);if(event.key==='ArrowDown'||event.key==='ArrowRight')setAxis('z',state.z+1);});
+      document.addEventListener('keydown',event=>{if(event.key==='ArrowUp'||event.key==='ArrowLeft')setAxis('z',state.z-ranges.z.step);if(event.key==='ArrowDown'||event.key==='ArrowRight')setAxis('z',state.z+ranges.z.step);});
       window.addEventListener('pagehide',()=>{if(animationFrame)cancelAnimationFrame(animationFrame);});
       renderMpr();init3D();
     })();
