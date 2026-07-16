@@ -779,6 +779,7 @@ html>body{padding:0}</style>
     #dvtMprDemo .dmp-actions{margin-top:15px}
     #dvtMprDemo .dmp-workspace-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
     #dvtMprDemo .dmp-story-tabs{margin:0}
+    #dvtMprDemo .dmp-mobile-plane-tabs{display:none}
     #dvtMprDemo .dmp-workspace{position:relative}
     #dvtMprDemo .dmp-mpr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;background:color-mix(in srgb,var(--foreground) 18%,transparent);padding:3px;border-radius:12px;overflow:hidden}
     #dvtMprDemo .dmp-panel{min-width:0;background:color-mix(in srgb,var(--background) 5%,rgb(0 0 0) 95%);color:rgb(238 242 245)}
@@ -906,9 +907,12 @@ html>body{padding:0}</style>
       #dvtMprDemo .dmp-editorial-main{padding-left:16px;padding-right:16px}
     }
     @media(max-width:980px){
-      #dvtMprDemo .dmp-editorial-shell{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-editorial-shell{grid-template-columns:1fr;grid-template-areas:"main" "right" "left"}
+      #dvtMprDemo .dmp-editorial-main{grid-area:main}
+      #dvtMprDemo .dmp-editorial-right{grid-area:right}
+      #dvtMprDemo .dmp-editorial-left{grid-area:left}
       #dvtMprDemo .dmp-editorial-left,#dvtMprDemo .dmp-editorial-right{border:0;padding:18px 0}
-      #dvtMprDemo .dmp-editorial-left{border-bottom:1px solid var(--border)}
+      #dvtMprDemo .dmp-editorial-left{border-top:1px solid var(--border)}
       #dvtMprDemo .dmp-editorial-right{border-top:1px solid var(--border)}
       #dvtMprDemo .dmp-editorial-main{padding:20px 0}
       #dvtMprDemo .dmp-region-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}
@@ -940,6 +944,16 @@ html>body{padding:0}</style>
       #dvtMprDemo .dmp-story-tabs .btn,#dvtMprDemo .dmp-workspace-actions .btn{flex:1 1 auto}
       #dvtMprDemo .dmp-marker-label{white-space:normal;max-width:140px;left:24px;top:22px}
       #dvtMprDemo .dmp-mpr-status{display:grid;gap:5px}
+      #dvtMprDemo .dmp-mobile-plane-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:10px 0}
+      #dvtMprDemo .dmp-mobile-plane-tabs .btn{min-width:0;min-height:44px;padding-left:6px;padding-right:6px}
+      #dvtMprDemo .dmp-mpr-grid>.dmp-panel{display:none}
+      #dvtMprDemo .dmp-mpr-grid>.dmp-panel.is-mobile-active{display:block}
+      #dvtMprDemo .dmp-axis-controls>.dmp-axis-control{display:none}
+      #dvtMprDemo .dmp-axis-controls>.dmp-axis-control.is-mobile-active{display:grid}
+      #dvtMprDemo #dmpMarkerToggle,#dvtMprDemo #dmpCenter,#dvtMprDemo #dmpFullscreen{display:none}
+      #dvtMprDemo .dmp-region-item:disabled{display:none}
+      #dvtMprDemo .dmp-region-list{grid-template-columns:1fr;margin-bottom:16px}
+      #dvtMprDemo .dmp-editorial-title{margin-bottom:12px}
     }
   </style>
 
@@ -1015,9 +1029,16 @@ html>body{padding:0}</style>
       <div class="dmp-workspace-actions"><button type="button" class="btn btn-primary" id="dmpMarkerFocus">Zum Demo-Marker</button><button type="button" class="btn" id="dmpMarkerToggle" aria-pressed="true">Marker an</button><button type="button" class="btn" id="dmpCenter">Demo zurücksetzen</button><button type="button" class="btn" id="dmpFullscreen">Vollbild</button><button type="button" class="btn" id="dmpHelpOpen">Bedienung</button></div>
     </div>
 
+    <div class="dmp-mobile-plane-tabs" role="tablist" aria-label="Mobile Bildansicht">
+      <button type="button" class="btn btn-primary" data-mobile-plane="axial" aria-pressed="true">Axial</button>
+      <button type="button" class="btn" data-mobile-plane="coronal" aria-pressed="false">Koronal</button>
+      <button type="button" class="btn" data-mobile-plane="sagittal" aria-pressed="false">Sagittal</button>
+      <button type="button" class="btn" data-mobile-plane="three" aria-pressed="false">3D</button>
+    </div>
+
     <div class="dmp-workspace" id="dmpWorkspace">
       <div class="dmp-mpr-grid" id="dmpMprGrid">
-        <section class="dmp-panel" aria-label="Axiale Rekonstruktion">
+        <section class="dmp-panel is-mobile-active" data-mobile-panel="axial" aria-label="Axiale Rekonstruktion">
           <div class="dmp-media" data-plane="axial" id="dmpAxialPane">
             <img id="dmpAxialImage" src="frames/axial/0335.jpg" alt="Axiale DVT-Schicht">
             <div class="dmp-pane-label"><strong>AXIAL</strong><span>Transversalebene</span></div><div class="dmp-pane-value" id="dmpAxialValue">Z 335 / 651</div>
@@ -1027,7 +1048,7 @@ html>body{padding:0}</style>
           <div class="dmp-panel-foot"><span>Mausrad: Z-Ebene · mobil: Slider</span><span>WC 120 · WW 1520</span></div>
         </section>
 
-        <section class="dmp-panel" aria-label="Koronale Rekonstruktion">
+        <section class="dmp-panel" data-mobile-panel="coronal" aria-label="Koronale Rekonstruktion">
           <div class="dmp-media" data-plane="coronal" id="dmpCoronalPane">
             <img id="dmpCoronalImage" src="frames/coronal/0331.jpg" alt="Koronale DVT-Rekonstruktion">
             <div class="dmp-pane-label"><strong>KORONAL</strong><span>Frontalebene</span></div><div class="dmp-pane-value" id="dmpCoronalValue">Y 331 / 801</div>
@@ -1037,7 +1058,7 @@ html>body{padding:0}</style>
           <div class="dmp-panel-foot"><span>Mausrad: Y-Ebene · mobil: Slider</span><span>isotrop 0,2 mm</span></div>
         </section>
 
-        <section class="dmp-panel" aria-label="Sagittale Rekonstruktion">
+        <section class="dmp-panel" data-mobile-panel="sagittal" aria-label="Sagittale Rekonstruktion">
           <div class="dmp-media" data-plane="sagittal" id="dmpSagittalPane">
             <img id="dmpSagittalImage" src="frames/sagittal/0275.jpg" alt="Sagittale DVT-Rekonstruktion">
             <div class="dmp-pane-label"><strong>SAGITTAL</strong><span>Seitenebene</span></div><div class="dmp-pane-value" id="dmpSagittalValue">X 275 / 801</div>
@@ -1047,7 +1068,7 @@ html>body{padding:0}</style>
           <div class="dmp-panel-foot"><span>Mausrad: X-Ebene · mobil: Slider</span><span>Klick: Kreuzpunkt</span></div>
         </section>
 
-        <section class="dmp-panel" aria-label="Interaktive 3D-Rekonstruktion">
+        <section class="dmp-panel" data-mobile-panel="three" aria-label="Interaktive 3D-Rekonstruktion">
           <div class="dmp-three-wrap" id="dmpThreeWrap">
             <img class="dmp-three-fallback" id="dmpThreeFallback" src="assets/3d-poster.jpg" alt="3D-Vorschau des DVT-Volumens">
             <canvas id="dmpThreeCanvas" role="img" aria-label="Drehbares 3D-Knochenmodell mit axialer, koronarer und sagittaler Schnittebene"></canvas>
@@ -1063,9 +1084,9 @@ html>body{padding:0}</style>
     </div>
 
     <div class="dmp-axis-controls">
-      <label class="dmp-axis-control" for="dmpXSlider"><span><strong><i class="dmp-axis-key dmp-axis-x"></i>Sagittal X</strong><output id="dmpXOutput">275 / 801</output></span><input class="form-range" id="dmpXSlider" type="range" min="1" max="801" step="2" value="275"></label>
-      <label class="dmp-axis-control" for="dmpYSlider"><span><strong><i class="dmp-axis-key dmp-axis-y"></i>Koronal Y</strong><output id="dmpYOutput">331 / 801</output></span><input class="form-range" id="dmpYSlider" type="range" min="1" max="801" step="2" value="331"></label>
-      <label class="dmp-axis-control" for="dmpZSlider"><span><strong><i class="dmp-axis-key dmp-axis-z"></i>Axial Z</strong><output id="dmpZOutput">335 / 651</output></span><input class="form-range" id="dmpZSlider" type="range" min="1" max="651" step="2" value="335"></label>
+      <label class="dmp-axis-control" data-axis-control="x" for="dmpXSlider"><span><strong><i class="dmp-axis-key dmp-axis-x"></i>Sagittal X</strong><output id="dmpXOutput">275 / 801</output></span><input class="form-range" id="dmpXSlider" type="range" min="1" max="801" step="2" value="275"></label>
+      <label class="dmp-axis-control" data-axis-control="y" for="dmpYSlider"><span><strong><i class="dmp-axis-key dmp-axis-y"></i>Koronal Y</strong><output id="dmpYOutput">331 / 801</output></span><input class="form-range" id="dmpYSlider" type="range" min="1" max="801" step="2" value="331"></label>
+      <label class="dmp-axis-control is-mobile-active" data-axis-control="z" for="dmpZSlider"><span><strong><i class="dmp-axis-key dmp-axis-z"></i>Axial Z</strong><output id="dmpZOutput">335 / 651</output></span><input class="form-range" id="dmpZSlider" type="range" min="1" max="651" step="2" value="335"></label>
     </div>
     <div class="dmp-mpr-status"><span id="dmpPosition">Kreuzpunkt X 54,8 · Y 66,0 · Z 63,2 mm</span><span class="dmp-marker-status">Grün: didaktische ROI · fachlich zu bestätigen</span><span>Gesamter Bereich · Raster 0,4 mm</span></div>
 
@@ -1201,6 +1222,17 @@ html>body{padding:0}</style>
         storyButtons.forEach(item=>{const active=item===button;item.setAttribute('aria-pressed',String(active));item.classList.toggle('btn-primary',active);});
         storyPanels.forEach(panel=>panel.classList.toggle('is-active',panel.dataset.storyPanel===name));
       }));
+      const mobilePlaneButtons=[...root.querySelectorAll('[data-mobile-plane]')];
+      const mobilePanels=[...root.querySelectorAll('[data-mobile-panel]')];
+      const axisControls=[...root.querySelectorAll('[data-axis-control]')];
+      function selectMobilePlane(name){
+        mobilePlaneButtons.forEach(button=>{const active=button.dataset.mobilePlane===name;button.setAttribute('aria-pressed',String(active));button.classList.toggle('btn-primary',active);});
+        mobilePanels.forEach(panel=>panel.classList.toggle('is-mobile-active',panel.dataset.mobilePanel===name));
+        const axis=name==='axial'?'z':name==='coronal'?'y':name==='sagittal'?'x':null;
+        axisControls.forEach(control=>control.classList.toggle('is-mobile-active',axis===null||control.dataset.axisControl===axis));
+        if(name==='three')requestAnimationFrame(resize3D);
+      }
+      mobilePlaneButtons.forEach(button=>button.addEventListener('click',()=>selectMobilePlane(button.dataset.mobilePlane)));
       root.querySelectorAll('[data-editorial-action]').forEach(button=>button.addEventListener('click',()=>{
         root.querySelectorAll('[data-editorial-action]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
         const action=button.dataset.editorialAction;
