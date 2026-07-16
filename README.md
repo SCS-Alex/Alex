@@ -2,6 +2,8 @@
 
 Interaktive, nicht diagnostische Demonstration eines de-identifizierten DVT-Falls mit:
 
+- Atlas-Startseite und klickbarer Fallbibliothek,
+- Navigation zwischen Fallübersicht, MPR + 3D und Technik,
 - synchronisierten axialen, koronalen und sagittalen Ansichten,
 - gesamter Aufnahmebereich mit 326 axialen sowie je 401 koronalen und sagittalen Schichten,
 - jede zweite Originalschicht als 0,4-mm-Navigationsraster,

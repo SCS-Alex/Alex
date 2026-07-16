@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>DVT Bildatlas – kompletter Bereich in 0,4 mm und 3D</title>
+<title>DVT Bildatlas – Fallbibliothek, MPR und 3D</title>
 <style>:root {
   color-scheme: light dark;
   background-color: var(--background) !important;
@@ -846,13 +846,36 @@ html>body{padding:0}</style>
     #dvtMprDemo .dmp-web-check dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0}
     #dvtMprDemo .dmp-web-check dt{color:var(--muted-foreground)}
     #dvtMprDemo .dmp-web-check dd{margin:2px 0 0}
+    #dvtMprDemo .dmp-breadcrumb{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--border);color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-breadcrumb button{padding:0;border:0;background:transparent;color:var(--foreground);cursor:pointer}
+    #dvtMprDemo .dmp-atlas-hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(250px,.75fr);gap:22px;align-items:center;padding:18px 0 22px}
+    #dvtMprDemo .dmp-atlas-hero h1{margin:0 0 9px;font-weight:500}
+    #dvtMprDemo .dmp-atlas-hero p{margin:0;color:var(--muted-foreground);max-width:680px}
+    #dvtMprDemo .dmp-atlas-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    #dvtMprDemo .dmp-atlas-stat{padding:12px;border-left:2px solid var(--border)}
+    #dvtMprDemo .dmp-atlas-stat strong,#dvtMprDemo .dmp-atlas-stat span{display:block}
+    #dvtMprDemo .dmp-atlas-stat span{margin-top:3px;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-library-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 12px}
+    #dvtMprDemo .dmp-library-head h2{margin:0;font-weight:500}
+    #dvtMprDemo .dmp-filter-row{display:flex;gap:7px;flex-wrap:wrap}
+    #dvtMprDemo .dmp-case-card{display:grid;grid-template-columns:minmax(220px,.65fr) minmax(0,1.35fr);gap:18px;align-items:stretch;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:16px 0}
+    #dvtMprDemo .dmp-case-card img{display:block;width:100%;height:100%;max-height:290px;object-fit:cover;border-radius:12px;background:rgb(0 0 0)}
+    #dvtMprDemo .dmp-case-card-body{display:flex;flex-direction:column;justify-content:center;min-width:0}
+    #dvtMprDemo .dmp-case-card-body h3{margin:8px 0 7px;font-weight:500}
+    #dvtMprDemo .dmp-case-card-body p{margin:0;color:var(--muted-foreground)}
+    #dvtMprDemo .dmp-case-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+    #dvtMprDemo .dmp-case-meta div{border-left:2px solid var(--border);padding-left:9px}
+    #dvtMprDemo .dmp-case-meta strong,#dvtMprDemo .dmp-case-meta span{display:block}
+    #dvtMprDemo .dmp-case-meta span{margin-top:2px;color:var(--muted-foreground)}
     @media(max-width:820px){
-      #dvtMprDemo .dmp-overview,#dvtMprDemo .dmp-info{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-overview,#dvtMprDemo .dmp-info,#dvtMprDemo .dmp-atlas-hero{grid-template-columns:1fr}
       #dvtMprDemo .dmp-axis-controls{grid-template-columns:1fr}
       #dvtMprDemo .dmp-web-check dl{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
     @media(max-width:620px){
       #dvtMprDemo .dmp-mpr-grid{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-atlas-stats,#dvtMprDemo .dmp-case-meta{grid-template-columns:1fr}
+      #dvtMprDemo .dmp-case-card{grid-template-columns:1fr}
       #dvtMprDemo .dmp-format-table thead{display:none}
       #dvtMprDemo .dmp-format-table,#dvtMprDemo .dmp-format-table tbody,#dvtMprDemo .dmp-format-table tr,#dvtMprDemo .dmp-format-table td{display:block;width:100%}
       #dvtMprDemo .dmp-format-table tr{padding:8px 0;border-bottom:1px solid var(--border)}
@@ -862,13 +885,28 @@ html>body{padding:0}</style>
   </style>
 
   <header class="dmp-header">
-    <div class="dmp-brand"><div class="dmp-brand-mark">D</div><div><strong>DVT Bildatlas</strong><span>Öffentliche MPR- und 3D-Probe</span></div></div>
-    <nav class="dmp-nav" aria-label="Demo-Navigation">
+    <div class="dmp-brand"><div class="dmp-brand-mark">D</div><div><strong>DVT Bildatlas</strong><span>Interaktive Fallbibliothek mit MPR und 3D</span></div></div>
+    <nav class="dmp-nav" aria-label="Atlas-Navigation">
+      <button type="button" class="btn btn-primary" data-view="library" aria-pressed="true">Atlas-Start</button>
       <button type="button" class="btn" data-view="overview" aria-pressed="false">Fallübersicht</button>
-      <button type="button" class="btn btn-primary" data-view="imaging" aria-pressed="true">MPR + 3D</button>
-      <button type="button" class="btn" data-view="formats" aria-pressed="false">Formatvergleich</button>
+      <button type="button" class="btn" data-view="imaging" aria-pressed="false">MPR + 3D</button>
+      <button type="button" class="btn" data-view="formats" aria-pressed="false">Technik</button>
     </nav>
   </header>
+
+  <div class="dmp-breadcrumb" aria-label="Brotkrümelnavigation"><button type="button" data-view-jump="library">Bildatlas</button><span>›</span><span id="dmpBreadcrumbCurrent">Fallbibliothek</span></div>
+
+  <section class="dmp-view is-active" data-view-panel="library">
+    <div class="dmp-atlas-hero">
+      <div><span class="viz-badge">DVT · Lehre · Fallnavigation</span><h1>Bildgebung fallbasiert erkunden</h1><p>Der Atlas verbindet klinischen Kontext, multiplanare Schichten und räumliche 3D-Orientierung. Jeder Fall führt in derselben Reihenfolge von der Fragestellung über die Bildgebung bis zur fachlich freigegebenen Entscheidung.</p></div>
+      <div class="dmp-atlas-stats" aria-label="Atlasumfang"><div class="dmp-atlas-stat"><strong>1</strong><span>Beispielfall</span></div><div class="dmp-atlas-stat"><strong>1.128</strong><span>Webschichten</span></div><div class="dmp-atlas-stat"><strong>MPR + 3D</strong><span>interaktiv</span></div></div>
+    </div>
+    <div class="dmp-library-head"><h2>Fallbibliothek</h2><div class="dmp-filter-row" aria-label="Fachbereich wählen"><button type="button" class="btn btn-primary" data-case-filter="all" aria-pressed="true">Alle Fälle</button><button type="button" class="btn" data-case-filter="orthopaedics" aria-pressed="false">Orthopädie</button><button type="button" class="btn" data-case-filter="dvt" aria-pressed="false">DVT</button></div></div>
+    <article class="dmp-case-card" id="dmpCaseCard">
+      <img src="assets/3d-poster.jpg" alt="Vorschau des DVT-Beispielfalls">
+      <div class="dmp-case-card-body"><div class="dmp-badges"><span class="viz-badge">DVT / CT</span><span class="viz-badge">0,4-mm-Webraster</span><span class="viz-badge dmp-marker-badge">Demo-ROI</span></div><h3>Testfall DVT_TEST_001</h3><p>De-identifizierter Demonstrationsfall mit synchroner axialer, koronarer und sagittaler Navigation sowie interaktivem 3D-Knochenmodell.</p><div class="dmp-case-meta"><div><strong>3 Ebenen</strong><span>synchronisiert</span></div><div><strong>Gesamter Bereich</strong><span>jede 2. Schicht</span></div><div><strong>Nicht diagnostisch</strong><span>Lehre und Präsentation</span></div></div><div class="dmp-actions"><button type="button" class="btn" id="dmpOpenCase">Fall ansehen</button><button type="button" class="btn btn-primary" id="dmpOpenCaseImaging">MPR + 3D öffnen</button></div></div>
+    </article>
+  </section>
 
   <section class="dmp-view" data-view-panel="overview">
     <div class="dmp-case-head"><div><strong>Testfall DVT_TEST_001</strong><span>Demonstrationsfall mit de-identifizierter Schnittbildgebung</span></div><div class="dmp-badges"><span class="viz-badge">DVT / CT</span><span class="viz-badge">0,2 mm isotrop</span><span class="viz-badge">MPR + 3D</span></div></div>
@@ -887,7 +925,7 @@ html>body{padding:0}</style>
     </div>
   </section>
 
-  <section class="dmp-view is-active" data-view-panel="imaging">
+  <section class="dmp-view" data-view-panel="imaging">
     <div class="dmp-case-head"><div><strong>Testfall DVT_TEST_001</strong><span>Gesamter Originalbereich in 0,4-mm-Schritten · nicht diagnostisch</span></div><div class="dmp-badges"><span class="viz-badge dmp-marker-badge">Grüne Demo-ROI</span><span class="viz-badge">326 axial</span><span class="viz-badge">401 koronal</span><span class="viz-badge">401 sagittal</span><span class="viz-badge">jede 2. Originalschicht</span></div></div>
     <div class="dmp-workspace-head">
       <div class="dmp-story-tabs" role="tablist" aria-label="Fallkapitel">
@@ -1008,6 +1046,7 @@ html>body{padding:0}</style>
       const wholePacks=new Map();
       let sliceFrames=[];
       let marker3D=null;
+      const breadcrumbLabels={library:'Fallbibliothek',overview:'Testfall · Übersicht',imaging:'Testfall · MPR + 3D',formats:'Technik und Formate'};
 
       async function getSliceUrl(axis,value){
         const cached=sliceCache[axis].get(value);
@@ -1043,9 +1082,16 @@ html>body{padding:0}</style>
       function showView(name){
         views.forEach(panel=>panel.classList.toggle('is-active',panel.dataset.viewPanel===name));
         navButtons.forEach(button=>{const active=button.dataset.view===name;button.setAttribute('aria-pressed',String(active));button.classList.toggle('btn-primary',active);});
+        root.querySelector('#dmpBreadcrumbCurrent').textContent=breadcrumbLabels[name]||name;
         if(name==='imaging')requestAnimationFrame(resize3D);
       }
       navButtons.forEach(button=>button.addEventListener('click',()=>showView(button.dataset.view)));
+      root.querySelectorAll('[data-view-jump]').forEach(button=>button.addEventListener('click',()=>showView(button.dataset.viewJump)));
+      root.querySelector('#dmpOpenCase').addEventListener('click',()=>showView('overview'));
+      root.querySelector('#dmpOpenCaseImaging').addEventListener('click',()=>showView('imaging'));
+      root.querySelectorAll('[data-case-filter]').forEach(button=>button.addEventListener('click',()=>{
+        root.querySelectorAll('[data-case-filter]').forEach(item=>{const active=item===button;item.setAttribute('aria-pressed',String(active));item.classList.toggle('btn-primary',active);});
+      }));
       root.querySelector('#dmpOpenImaging').addEventListener('click',()=>showView('imaging'));
       root.querySelector('#dmpOpenFormats').addEventListener('click',()=>showView('formats'));
       root.querySelector('#dmpFormatToImaging').addEventListener('click',()=>showView('imaging'));
