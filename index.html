@@ -936,6 +936,7 @@ html>body{padding:0}</style>
       html,body{overflow-x:hidden;overflow-y:auto!important;overscroll-behavior-y:auto;-webkit-overflow-scrolling:touch}
       #dvtMprDemo,#dvtMprDemo .dmp-view,#dvtMprDemo .dmp-editorial-shell,#dvtMprDemo .dmp-editorial-main,#dvtMprDemo .dmp-workspace{overflow:visible;touch-action:pan-y}
       #dvtMprDemo .dmp-media,#dvtMprDemo .dmp-three-wrap,#dvtMprDemo .dmp-three-wrap canvas{touch-action:pan-y!important;overscroll-behavior-y:auto}
+      #dvtMprDemo [data-mobile-panel="three"].is-mobile-active .dmp-three-wrap,#dvtMprDemo [data-mobile-panel="three"].is-mobile-active .dmp-three-wrap canvas{touch-action:none!important;overscroll-behavior:contain}
       #dvtMprDemo .dmp-header{align-items:flex-start}
       #dvtMprDemo .dmp-nav{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
       #dvtMprDemo .dmp-nav .btn,#dvtMprDemo .dmp-story-tabs .btn,#dvtMprDemo .dmp-workspace-actions .btn,#dvtMprDemo .dmp-panel-foot .btn{min-height:44px}
@@ -1397,8 +1398,8 @@ html>body{padding:0}</style>
           `;
           const material=new THREE.ShaderMaterial({glslVersion:THREE.GLSL3,uniforms:{uVolume:{value:texture},uSize:{value:physicalSize},uVoxel:{value:voxelSize},uThreshold:{value:.55}},vertexShader,fragmentShader,side:THREE.BackSide,transparent:false,depthWrite:true});
           const geometry=new THREE.BoxGeometry(physicalSize.x,physicalSize.y,physicalSize.z);geometry.computeBoundingSphere();model=new THREE.Mesh(geometry,material);scene.add(model);
-          controls=new THREE.OrbitControls(camera,threeCanvas);controls.enableDamping=true;controls.dampingFactor=.07;controls.autoRotate=!reduceMotion;controls.autoRotateSpeed=.8;controls.enablePan=false;if(window.innerWidth<=820||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches))controls.enableZoom=false;
-          const modelCenter=new THREE.Vector3(physicalSize.x*.5,-physicalSize.y*.5,physicalSize.z*.5);createSliceFrames(modelCenter);create3DMarker(modelCenter);reset3D();resize3D();threeFallback.hidden=true;threeStatus.textContent='Direktes DICOM-Volumen · Ziehen: drehen · Mausrad: zoomen';
+          controls=new THREE.OrbitControls(camera,threeCanvas);controls.enableDamping=true;controls.dampingFactor=.07;controls.enableRotate=true;controls.autoRotate=!reduceMotion;controls.autoRotateSpeed=.8;controls.enablePan=false;if(THREE.MOUSE)controls.mouseButtons.LEFT=THREE.MOUSE.ROTATE;if(THREE.TOUCH)controls.touches.ONE=THREE.TOUCH.ROTATE;if(window.innerWidth<=820||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches))controls.enableZoom=false;
+          const modelCenter=new THREE.Vector3(physicalSize.x*.5,-physicalSize.y*.5,physicalSize.z*.5);createSliceFrames(modelCenter);create3DMarker(modelCenter);reset3D();resize3D();threeFallback.hidden=true;threeStatus.textContent='Direktes DICOM-Volumen · Ziehen/Wischen: drehen · Mausrad: zoomen';
           const animate=()=>{animationFrame=requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);};animate();
           if(window.ResizeObserver)new ResizeObserver(resize3D).observe(threeWrap);else window.addEventListener('resize',resize3D);
           if(reduceMotion){const rotateButton=root.querySelector('#dmpThreeRotate');rotateButton.setAttribute('aria-pressed','false');rotateButton.textContent='Rotation aus';}
