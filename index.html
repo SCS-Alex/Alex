@@ -805,7 +805,7 @@ html>body{padding:0}</style>
     #dvtMprDemo .dmp-axis-z{background:var(--viz-series-1)}
     #dvtMprDemo .dmp-panel-foot{display:flex;justify-content:space-between;gap:8px;align-items:center;min-height:38px;padding:7px 9px;background:color-mix(in srgb,var(--background) 12%,rgb(0 0 0) 88%);color:rgb(198 206 212)}
     #dvtMprDemo .dmp-panel-foot .btn{color:rgb(238 242 245);border-color:rgb(70 81 90);background:rgb(26 32 37)}
-    #dvtMprDemo .dmp-three-wrap{position:relative;aspect-ratio:1/1;background:rgb(0 0 0);overflow:hidden}
+    #dvtMprDemo .dmp-three-wrap{position:relative;aspect-ratio:1/1;background:radial-gradient(circle at 48% 38%,rgb(36 41 46) 0%,rgb(12 16 20) 48%,rgb(2 4 6) 100%);overflow:hidden}
     #dvtMprDemo .dmp-three-wrap canvas,#dvtMprDemo .dmp-three-fallback{position:absolute;inset:0;width:100%;height:100%;display:block}
     #dvtMprDemo .dmp-three-fallback{object-fit:contain}
     #dvtMprDemo .dmp-three-wrap canvas{z-index:2;touch-action:none}
@@ -1072,7 +1072,7 @@ html>body{padding:0}</style>
           <div class="dmp-three-wrap" id="dmpThreeWrap">
             <img class="dmp-three-fallback" id="dmpThreeFallback" src="assets/3d-poster.jpg" alt="3D-Vorschau des DVT-Volumens">
             <canvas id="dmpThreeCanvas" role="img" aria-label="Drehbares 3D-Knochenmodell mit axialer, koronarer und sagittaler Schnittebene"></canvas>
-            <div class="dmp-pane-label"><strong>3D KNOCHEN</strong><span>Segmentierung ab 350 HU</span></div><div class="dmp-three-status" id="dmpThreeStatus">3D wird vorbereitet</div>
+            <div class="dmp-pane-label"><strong>3D KNOCHEN</strong><span>350 HU · realistische Oberflächenbeleuchtung</span></div><div class="dmp-three-status" id="dmpThreeStatus">3D wird vorbereitet</div>
           </div>
           <div class="dmp-panel-foot"><button type="button" class="btn" id="dmpThreeReset">3D zurücksetzen</button><button type="button" class="btn" id="dmpThreePlanes" aria-pressed="true">Ebenen an</button><button type="button" class="btn" id="dmpThreeRotate" aria-pressed="true">Rotation an</button></div>
         </section>
@@ -1330,14 +1330,20 @@ html>body{padding:0}</style>
       function init3D(){
         if(!window.THREE||!window.DVT_MESH){threeStatus.textContent='3D nicht verfügbar · MIP-Vorschau aktiv';threeCanvas.hidden=true;return;}
         try{
-          renderer=new THREE.WebGLRenderer({canvas:threeCanvas,antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.setClearColor(0x050709,1);renderer.outputEncoding=THREE.sRGBEncoding;
+          renderer=new THREE.WebGLRenderer({canvas:threeCanvas,antialias:true,alpha:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.setClearColor(0x000000,0);renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.82;renderer.physicallyCorrectLights=true;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
           scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(32,1,.1,1000);
           const payload=window.DVT_MESH;const quantized=decodeBase64(payload.positions,Uint16Array);const positions=new Float32Array(quantized.length);
           for(let i=0;i<quantized.length;i+=3){positions[i]=payload.minimum[0]+quantized[i]/65535*payload.span[0];positions[i+1]=payload.minimum[1]+quantized[i+1]/65535*payload.span[1];positions[i+2]=payload.minimum[2]+quantized[i+2]/65535*payload.span[2];}
           const indices=decodeBase64(payload.indices,payload.indexType==='uint16'?Uint16Array:Uint32Array);const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));geometry.setIndex(new THREE.BufferAttribute(indices,1));geometry.computeVertexNormals();geometry.computeBoundingBox();
-          const modelCenter=new THREE.Vector3();geometry.boundingBox.getCenter(modelCenter);geometry.translate(-modelCenter.x,-modelCenter.y,-modelCenter.z);geometry.computeBoundingSphere();
-          const material=new THREE.MeshStandardMaterial({color:0xd5cdbf,roughness:.78,metalness:.02,side:THREE.DoubleSide});model=new THREE.Mesh(geometry,material);scene.add(model);
-          scene.add(new THREE.HemisphereLight(0xe9f2ff,0x23272c,.9));const key=new THREE.DirectionalLight(0xffffff,.8);key.position.set(1.5,2,2.5);scene.add(key);const rim=new THREE.DirectionalLight(0x8fb9ff,.4);rim.position.set(-2,-.5,-1);scene.add(rim);
+          const modelCenter=new THREE.Vector3();geometry.boundingBox.getCenter(modelCenter);geometry.translate(-modelCenter.x,-modelCenter.y,-modelCenter.z);geometry.computeBoundingBox();geometry.computeBoundingSphere();
+          const vertexPositions=geometry.getAttribute('position');const vertexNormals=geometry.getAttribute('normal');const vertexColors=new Float32Array(vertexPositions.count*3);const boneBase=new THREE.Color(0xd8c7aa);
+          for(let i=0;i<vertexPositions.count;i++){const px=vertexPositions.getX(i),py=vertexPositions.getY(i),pz=vertexPositions.getZ(i);const grain=Math.sin(px*.19+pz*.11)*.018+Math.sin(py*.31-px*.07)*.012;const orientation=Math.abs(vertexNormals.getY(i))*.025;const shade=.94+grain+orientation;vertexColors[i*3]=Math.min(1,boneBase.r*shade);vertexColors[i*3+1]=Math.min(1,boneBase.g*shade);vertexColors[i*3+2]=Math.min(1,boneBase.b*shade);}
+          geometry.setAttribute('color',new THREE.BufferAttribute(vertexColors,3));
+          const material=new THREE.MeshPhysicalMaterial({color:0xffffff,vertexColors:true,roughness:.7,metalness:0,clearcoat:.04,clearcoatRoughness:.82,side:THREE.FrontSide});model=new THREE.Mesh(geometry,material);model.castShadow=true;model.receiveShadow=true;scene.add(model);
+          const radius=geometry.boundingSphere.radius;const hemi=new THREE.HemisphereLight(0xeaf2f7,0x182028,.42);scene.add(hemi);
+          const key=new THREE.DirectionalLight(0xfff3df,1.45);key.position.set(radius*1.7,radius*2.4,radius*2.2);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-radius*1.5;key.shadow.camera.right=radius*1.5;key.shadow.camera.top=radius*1.5;key.shadow.camera.bottom=-radius*1.5;key.shadow.camera.near=.1;key.shadow.camera.far=radius*7;key.shadow.bias=-.00035;scene.add(key);
+          const fill=new THREE.DirectionalLight(0xb8d8ef,.38);fill.position.set(-radius*1.8,radius*.7,radius*1.1);scene.add(fill);const rim=new THREE.DirectionalLight(0xddeeff,.72);rim.position.set(-radius*1.4,radius*1.1,-radius*2.2);scene.add(rim);
+          const groundMaterial=new THREE.ShadowMaterial({color:0x000000,opacity:.3});const ground=new THREE.Mesh(new THREE.PlaneGeometry(radius*5,radius*5),groundMaterial);ground.rotation.x=-Math.PI/2;ground.position.y=geometry.boundingBox.min.y-radius*.045;ground.receiveShadow=true;scene.add(ground);
           controls=new THREE.OrbitControls(camera,threeCanvas);controls.enableDamping=true;controls.dampingFactor=.07;controls.autoRotate=!reduceMotion;controls.autoRotateSpeed=1.1;controls.enablePan=false;if(window.innerWidth<=820||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches))controls.enableZoom=false;
           createSliceFrames(modelCenter);create3DMarker(modelCenter);reset3D();resize3D();threeFallback.hidden=true;threeStatus.textContent='Grün: didaktische ROI · Ziehen: drehen · Mausrad: zoomen';
           const animate=()=>{animationFrame=requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);};animate();
