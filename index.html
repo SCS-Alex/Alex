@@ -1141,6 +1141,12 @@ html>body{padding:0}</style>
   <script src="assets/mesh-data.js"></script>
   <script src="assets/slice-index.js"></script>
   <script>
+    if(location.protocol==='file:'){
+      document.write('<script src="assets/volume-meta.js"><\/script>');
+      for(let volumePart=0;volumePart<6;volumePart++)document.write('<script src="assets/volume-'+volumePart+'.js"><\/script>');
+    }
+  </script>
+  <script>
     (()=>{
       const root=document.getElementById('dvtMprDemo');
       const dimensions={x:801,y:801,z:651};
@@ -1329,6 +1335,7 @@ html>body{padding:0}</style>
       function reset3D(){if(!camera||!controls||!model)return;const radius=model.geometry.boundingSphere.radius;camera.position.set(radius*2.4,radius*1.4,radius*2.7);controls.target.set(0,0,0);controls.update();}
       function loadVolumeData(){
         if(window.DVT_VOLUME&&(window.DVT_VOLUME.data||window.DVT_VOLUME.bytes))return Promise.resolve(window.DVT_VOLUME);
+        if(window.DVT_VOLUME&&window.DVT_VOLUME.dataChunks&&window.DVT_VOLUME.dataChunks.length===6){window.DVT_VOLUME.data=window.DVT_VOLUME.dataChunks.join('');delete window.DVT_VOLUME.dataChunks;return Promise.resolve(window.DVT_VOLUME);}
         const loadScript=source=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=source;script.onload=resolve;script.onerror=reject;document.head.appendChild(script);});
         return (async()=>{await loadScript('assets/volume-meta.js');for(let index=0;index<6;index++)await loadScript('assets/volume-'+index+'.js');window.DVT_VOLUME.data=window.DVT_VOLUME.dataChunks.join('');delete window.DVT_VOLUME.dataChunks;return window.DVT_VOLUME;})();
       }
